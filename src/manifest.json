@@ -1,0 +1,40 @@
+{
+	"name": "Telescope Chrome Extension",
+	"version": "1.0.0",
+	"description": "Glassdoor Reviews",
+	"homepage_url": "https://github.com/jaebradley/telescope-chrome-extension",
+	"manifest_version": 2,
+	"minimum_chrome_version": "58",
+	"permissions": [
+    "*://linkedin.com/*",
+    "localhost:5000/*",
+    "contextMenus",
+		"tabs",
+    "storage"
+	],
+	"optional_permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
+	"background": {
+		"scripts": [
+			"background.js"
+		],
+		"persistent": false
+	},
+	"content_scripts": [
+		{
+			"run_at": "document_end",
+			"matches": [
+				"*://www.linkedin.com/*"
+			],
+			"js": [
+        "content.js",
+        "popup.js"
+			]
+		}
+  ],
+  "browser_action": {
+    "default_popup": "popup.html"
+  }
+}

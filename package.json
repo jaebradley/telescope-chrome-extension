@@ -4,7 +4,15 @@
   "description": "Glassdoor chrome extension",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "NODE_ENV=development node_modules/.bin/webpack --config webpack/development.config.js",
+    "build:prod": "NODE_ENV=production node_modules/.bin/webpack --config webpack/production.config.js",
+    "clear-cache": "rm -rf ./node_modules/.cache/hard-source",
+    "clear-everything": "npm run clear-cache && ./node_modules/.bin/rimraf ./node_modules",
+    "codecov": "codecov",
+    "fresh-start": "npm run clear-everything && npm install",
+    "lint": "./node_modules/.bin/eslint .",
+    "semantic-release": "semantic-release",
+    "test": "./node_modules/.bin/jest --coverage --passWithNoTests"
   },
   "repository": {
     "type": "git",
@@ -18,5 +26,46 @@
   "bugs": {
     "url": "https://github.com/jaebradley/telescope-chrome-extension/issues"
   },
-  "homepage": "https://github.com/jaebradley/telescope-chrome-extension#readme"
+  "homepage": "https://github.com/jaebradley/telescope-chrome-extension#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.4.2",
+    "axios": "^0.19.0",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.8.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "dotenv-webpack": "^1.7.0",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "file-loader": "^4.2.0",
+    "hard-source-webpack-plugin": "^0.13.1",
+    "husky": "^3.0.5",
+    "image-webpack-loader": "^6.0.0",
+    "jest": "^24.9.0",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.40.2",
+    "webpack-build-notifier": "^1.1.1",
+    "webpack-chrome-extension-reloader": "^1.3.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1",
+    "webpack-merge": "^4.2.2",
+    "write-file-webpack-plugin": "^4.5.1"
+  }
 }
