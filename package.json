@@ -1,0 +1,22 @@
+{
+  "name": "telescope-chrome-extension",
+  "version": "1.0.0",
+  "description": "Glassdoor chrome extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaebradley/telescope-chrome-extension.git"
+  },
+  "keywords": [
+    "Glassdoor"
+  ],
+  "author": "jae.b.bradley@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaebradley/telescope-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/jaebradley/telescope-chrome-extension#readme"
+}
