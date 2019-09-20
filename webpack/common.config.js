@@ -1,12 +1,7 @@
-const {
-  CleanWebpackPlugin,
-} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const {
-  BASE_DIRECTORY,
-  OUTPUT_DIRECTORY_NAME,
   OUTPUT_PATH,
   ENTRY_FILE_PATHS,
 } = require('./constants');
