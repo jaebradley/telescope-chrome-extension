@@ -37,6 +37,7 @@ function FeaturedReview({ data }) {
             </ListItemIcon>
             <Rating
               value={data.overallRating}
+              precision={0.1}
               readOnly
             />
           </ListItem>
