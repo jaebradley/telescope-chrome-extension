@@ -64,6 +64,12 @@ const DEFAULT_DATA = {
   },
 };
 
+const isValidResponse = (response) => response
+  && response.data
+  && response.data.response
+  && response.data.response.employers
+  && response.data.response.employers.length;
+
 export default function SimplePopover() {
   const classes = useStyles();
   const [
@@ -74,6 +80,11 @@ export default function SimplePopover() {
     open,
     setOpen,
   ] = useState(false);
+  const [
+    ableToIdentifyCompany,
+    setAbleToIdentifyCompany,
+  ] = useState(false);
+
   const anchorEl = document.getElementById('telescope');
 
   useEffect(() => {
@@ -83,46 +94,52 @@ export default function SimplePopover() {
           search_term: selectionText,
         },
       }).then((response) => {
-        const responseData = response.data.response;
-        const firstEmployer = responseData.employers[0];
-        setData({
-          name: firstEmployer.name,
-          industryName: firstEmployer.industryName,
-          logoURL: firstEmployer.squareLogo,
-          websiteURL: firstEmployer.website,
-          reviewsURL: responseData.attributionURL,
-          ratings: {
-            careerOpportunities: firstEmployer.careerOpportunitiesRating,
-            compensationAndBenefits: firstEmployer.compensationAndBenefitsRating,
-            workLifeBalance: firstEmployer.workLifeBalanceRating,
-            overall: firstEmployer.overallRating,
-            seniorLeadership: firstEmployer.seniorLeadershipRating,
-            count: firstEmployer.numberOfRatings,
-            description: firstEmployer.ratingDescription,
-          },
-          leader: {
-            title: firstEmployer.ceo.title,
-            name: firstEmployer.ceo.name,
-            ratingsCount: firstEmployer.ceo.numberOfRatings,
-            approvalPercentage: firstEmployer.ceo.pctApprove,
-            disapprovalPercentage: firstEmployer.ceo.pctDisapprove,
-            image: {
-              url: firstEmployer.ceo.image.src,
-              height: firstEmployer.ceo.image.height,
-              width: firstEmployer.ceo.image.width,
+        if (isValidResponse(response)) {
+          const responseData = response.data.response;
+          const firstEmployer = responseData.employers[0];
+          setData({
+            name: firstEmployer.name,
+            industryName: firstEmployer.industryName,
+            logoURL: firstEmployer.squareLogo,
+            websiteURL: firstEmployer.website,
+            reviewsURL: responseData.attributionURL,
+            ratings: {
+              careerOpportunities: firstEmployer.careerOpportunitiesRating,
+              compensationAndBenefits: firstEmployer.compensationAndBenefitsRating,
+              workLifeBalance: firstEmployer.workLifeBalanceRating,
+              overall: firstEmployer.overallRating,
+              seniorLeadership: firstEmployer.seniorLeadershipRating,
+              count: firstEmployer.numberOfRatings,
+              description: firstEmployer.ratingDescription,
             },
-          },
-          featuredReview: {
-            url: firstEmployer.featuredReview.attributionURL,
-            consDescription: firstEmployer.featuredReview.cons,
-            prosDescription: firstEmployer.featuredReview.pros,
-            jobTitle: firstEmployer.featuredReview.jobTitle,
-            headline: firstEmployer.featuredReview.headline,
-            reviewDateTime: firstEmployer.featuredReview.reviewDateTime,
-            location: firstEmployer.featuredReview.location,
-            overallRating: firstEmployer.featuredReview.overall,
-          },
-        });
+            leader: {
+              title: firstEmployer.ceo.title,
+              name: firstEmployer.ceo.name,
+              ratingsCount: firstEmployer.ceo.numberOfRatings,
+              approvalPercentage: firstEmployer.ceo.pctApprove,
+              disapprovalPercentage: firstEmployer.ceo.pctDisapprove,
+              image: {
+                url: firstEmployer.ceo.image.src,
+                height: firstEmployer.ceo.image.height,
+                width: firstEmployer.ceo.image.width,
+              },
+            },
+            featuredReview: {
+              url: firstEmployer.featuredReview.attributionURL,
+              consDescription: firstEmployer.featuredReview.cons,
+              prosDescription: firstEmployer.featuredReview.pros,
+              jobTitle: firstEmployer.featuredReview.jobTitle,
+              headline: firstEmployer.featuredReview.headline,
+              reviewDateTime: firstEmployer.featuredReview.reviewDateTime,
+              location: firstEmployer.featuredReview.location,
+              overallRating: firstEmployer.featuredReview.overall,
+            },
+          });
+          setAbleToIdentifyCompany(false);
+        } else {
+          setData(DEFAULT_DATA);
+          setAbleToIdentifyCompany(true);
+        }
         setOpen(true);
       });
     });
@@ -145,13 +162,26 @@ export default function SimplePopover() {
         <IconButton onClick={() => setOpen(false)}>
           <CloseIcon />
         </IconButton>
-        <Ratings
-          logoURL={data.logoURL}
-          companyName={data.name}
-          data={data.ratings}
-        />
-        <LeaderDetails data={data.leader} />
-        <FeaturedReview data={data.featuredReview} />
+        {
+          !ableToIdentifyCompany && (
+            <div>
+              Unable to identify company
+            </div>
+          )
+        }
+        {
+          ableToIdentifyCompany && (
+            <>
+              <Ratings
+                logoURL={data.logoURL}
+                companyName={data.name}
+                data={data.ratings}
+              />
+              <LeaderDetails data={data.leader} />
+              <FeaturedReview data={data.featuredReview} />
+            </>
+          )
+        }
       </div>
     </Portal>
   );
