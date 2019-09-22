@@ -18,11 +18,8 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-  },
   listItem: {
-    display: 'flex',
+    padding: 0,
     alignItems: 'center',
   },
 });
@@ -34,7 +31,6 @@ function LeaderDetails({ data }) {
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary
-        className={classes.root}
         expandIcon={<ExpandMoreIcon />}
         aria-controls="leader-details-content"
         id="leader-details-panel-header"

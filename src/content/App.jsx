@@ -14,6 +14,7 @@ import classnames from 'classnames';
 
 import LeaderDetails from './LeaderDetails';
 import FeaturedReview from './FeaturedReview';
+import Ratings from './Ratings';
 
 const useStyles = makeStyles({
   root: {
@@ -144,6 +145,11 @@ export default function SimplePopover() {
         <IconButton onClick={() => setOpen(false)}>
           <CloseIcon />
         </IconButton>
+        <Ratings
+          logoURL={data.logoURL}
+          companyName={data.name}
+          data={data.ratings}
+        />
         <LeaderDetails data={data.leader} />
         <FeaturedReview data={data.featuredReview} />
       </div>
