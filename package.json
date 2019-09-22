@@ -29,7 +29,11 @@
   "homepage": "https://github.com/jaebradley/telescope-chrome-extension#readme",
   "dependencies": {
     "@material-ui/core": "^4.4.2",
+    "@material-ui/icons": "^4.4.1",
+    "@material-ui/lab": "^4.0.0-alpha.26",
+    "@material-ui/styles": "^4.4.1",
     "axios": "^0.19.0",
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
