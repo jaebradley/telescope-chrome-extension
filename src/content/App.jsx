@@ -7,6 +7,8 @@ import axios from 'axios';
 import Portal from '@material-ui/core/Portal';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -22,6 +24,9 @@ const useStyles = makeStyles({
   },
   hidden: {
     display: 'none',
+  },
+  unableToIdentifyCompany: {
+    padding: 40,
   },
 });
 
@@ -64,11 +69,11 @@ const DEFAULT_DATA = {
   },
 };
 
-const isValidResponse = (response) => response
-  && response.data
-  && response.data.response
-  && response.data.response.employers
-  && response.data.response.employers.length;
+const isValidResponse = (response) => !!response
+  && !!response.data
+  && !!response.data.response
+  && !!response.data.response.employers
+  && !!response.data.response.employers.length;
 
 export default function SimplePopover() {
   const classes = useStyles();
@@ -84,11 +89,17 @@ export default function SimplePopover() {
     ableToIdentifyCompany,
     setAbleToIdentifyCompany,
   ] = useState(false);
+  const [
+    selectedText,
+    setSelectedText,
+  ] = useState('');
 
   const anchorEl = document.getElementById('telescope');
 
   useEffect(() => {
     chrome.extension.onMessage.addListener(({ selectionText }) => {
+      setSelectedText(selectionText);
+
       axios.get('https://telescope-chrome-extension.herokuapp.com/employers', {
         params: {
           search_term: selectionText,
@@ -112,7 +123,7 @@ export default function SimplePopover() {
               count: firstEmployer.numberOfRatings,
               description: firstEmployer.ratingDescription,
             },
-            leader: {
+            leader: firstEmployer.ceo && {
               title: firstEmployer.ceo.title,
               name: firstEmployer.ceo.name,
               ratingsCount: firstEmployer.ceo.numberOfRatings,
@@ -135,10 +146,10 @@ export default function SimplePopover() {
               overallRating: firstEmployer.featuredReview.overall,
             },
           });
-          setAbleToIdentifyCompany(false);
+          setAbleToIdentifyCompany(true);
         } else {
           setData(DEFAULT_DATA);
-          setAbleToIdentifyCompany(true);
+          setAbleToIdentifyCompany(false);
         }
         setOpen(true);
       });
@@ -164,9 +175,13 @@ export default function SimplePopover() {
         </IconButton>
         {
           !ableToIdentifyCompany && (
-            <div>
-              Unable to identify company
-            </div>
+            <Paper className={classes.unableToIdentifyCompany}>
+              <Typography variant="h4">
+                Unable to identify company for selected text:
+                {' '}
+                {`'${selectedText}'`}
+              </Typography>
+            </Paper>
           )
         }
         {
