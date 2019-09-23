@@ -7,6 +7,8 @@ import axios from 'axios';
 import Portal from '@material-ui/core/Portal';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -22,6 +24,9 @@ const useStyles = makeStyles({
   },
   hidden: {
     display: 'none',
+  },
+  unableToIdentifyCompany: {
+    padding: 40,
   },
 });
 
@@ -64,6 +69,12 @@ const DEFAULT_DATA = {
   },
 };
 
+const isValidResponse = (response) => !!response
+  && !!response.data
+  && !!response.data.response
+  && !!response.data.response.employers
+  && !!response.data.response.employers.length;
+
 export default function SimplePopover() {
   const classes = useStyles();
   const [
@@ -74,55 +85,72 @@ export default function SimplePopover() {
     open,
     setOpen,
   ] = useState(false);
+  const [
+    ableToIdentifyCompany,
+    setAbleToIdentifyCompany,
+  ] = useState(false);
+  const [
+    selectedText,
+    setSelectedText,
+  ] = useState('');
+
   const anchorEl = document.getElementById('telescope');
 
   useEffect(() => {
     chrome.extension.onMessage.addListener(({ selectionText }) => {
+      setSelectedText(selectionText);
+
       axios.get('https://telescope-chrome-extension.herokuapp.com/employers', {
         params: {
           search_term: selectionText,
         },
       }).then((response) => {
-        const responseData = response.data.response;
-        const firstEmployer = responseData.employers[0];
-        setData({
-          name: firstEmployer.name,
-          industryName: firstEmployer.industryName,
-          logoURL: firstEmployer.squareLogo,
-          websiteURL: firstEmployer.website,
-          reviewsURL: responseData.attributionURL,
-          ratings: {
-            careerOpportunities: firstEmployer.careerOpportunitiesRating,
-            compensationAndBenefits: firstEmployer.compensationAndBenefitsRating,
-            workLifeBalance: firstEmployer.workLifeBalanceRating,
-            overall: firstEmployer.overallRating,
-            seniorLeadership: firstEmployer.seniorLeadershipRating,
-            count: firstEmployer.numberOfRatings,
-            description: firstEmployer.ratingDescription,
-          },
-          leader: {
-            title: firstEmployer.ceo.title,
-            name: firstEmployer.ceo.name,
-            ratingsCount: firstEmployer.ceo.numberOfRatings,
-            approvalPercentage: firstEmployer.ceo.pctApprove,
-            disapprovalPercentage: firstEmployer.ceo.pctDisapprove,
-            image: {
-              url: firstEmployer.ceo.image.src,
-              height: firstEmployer.ceo.image.height,
-              width: firstEmployer.ceo.image.width,
+        if (isValidResponse(response)) {
+          const responseData = response.data.response;
+          const firstEmployer = responseData.employers[0];
+          setData({
+            name: firstEmployer.name,
+            industryName: firstEmployer.industryName,
+            logoURL: firstEmployer.squareLogo,
+            websiteURL: firstEmployer.website,
+            reviewsURL: responseData.attributionURL,
+            ratings: {
+              careerOpportunities: firstEmployer.careerOpportunitiesRating,
+              compensationAndBenefits: firstEmployer.compensationAndBenefitsRating,
+              workLifeBalance: firstEmployer.workLifeBalanceRating,
+              overall: firstEmployer.overallRating,
+              seniorLeadership: firstEmployer.seniorLeadershipRating,
+              count: firstEmployer.numberOfRatings,
+              description: firstEmployer.ratingDescription,
             },
-          },
-          featuredReview: {
-            url: firstEmployer.featuredReview.attributionURL,
-            consDescription: firstEmployer.featuredReview.cons,
-            prosDescription: firstEmployer.featuredReview.pros,
-            jobTitle: firstEmployer.featuredReview.jobTitle,
-            headline: firstEmployer.featuredReview.headline,
-            reviewDateTime: firstEmployer.featuredReview.reviewDateTime,
-            location: firstEmployer.featuredReview.location,
-            overallRating: firstEmployer.featuredReview.overall,
-          },
-        });
+            leader: firstEmployer.ceo && {
+              title: firstEmployer.ceo.title,
+              name: firstEmployer.ceo.name,
+              ratingsCount: firstEmployer.ceo.numberOfRatings,
+              approvalPercentage: firstEmployer.ceo.pctApprove,
+              disapprovalPercentage: firstEmployer.ceo.pctDisapprove,
+              image: {
+                url: firstEmployer.ceo.image.src,
+                height: firstEmployer.ceo.image.height,
+                width: firstEmployer.ceo.image.width,
+              },
+            },
+            featuredReview: {
+              url: firstEmployer.featuredReview.attributionURL,
+              consDescription: firstEmployer.featuredReview.cons,
+              prosDescription: firstEmployer.featuredReview.pros,
+              jobTitle: firstEmployer.featuredReview.jobTitle,
+              headline: firstEmployer.featuredReview.headline,
+              reviewDateTime: firstEmployer.featuredReview.reviewDateTime,
+              location: firstEmployer.featuredReview.location,
+              overallRating: firstEmployer.featuredReview.overall,
+            },
+          });
+          setAbleToIdentifyCompany(true);
+        } else {
+          setData(DEFAULT_DATA);
+          setAbleToIdentifyCompany(false);
+        }
         setOpen(true);
       });
     });
@@ -145,13 +173,30 @@ export default function SimplePopover() {
         <IconButton onClick={() => setOpen(false)}>
           <CloseIcon />
         </IconButton>
-        <Ratings
-          logoURL={data.logoURL}
-          companyName={data.name}
-          data={data.ratings}
-        />
-        <LeaderDetails data={data.leader} />
-        <FeaturedReview data={data.featuredReview} />
+        {
+          !ableToIdentifyCompany && (
+            <Paper className={classes.unableToIdentifyCompany}>
+              <Typography variant="h4">
+                Unable to identify company for selected text:
+                {' '}
+                {`'${selectedText}'`}
+              </Typography>
+            </Paper>
+          )
+        }
+        {
+          ableToIdentifyCompany && (
+            <>
+              <Ratings
+                logoURL={data.logoURL}
+                companyName={data.name}
+                data={data.ratings}
+              />
+              <LeaderDetails data={data.leader} />
+              <FeaturedReview data={data.featuredReview} />
+            </>
+          )
+        }
       </div>
     </Portal>
   );
