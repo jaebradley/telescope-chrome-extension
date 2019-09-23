@@ -16,6 +16,7 @@ import LabelIcon from '@material-ui/icons/Label';
 import GradeIcon from '@material-ui/icons/Grade';
 import PropTypes from 'prop-types';
 
+import ExpandableContent from './ExpandableContent';
 
 function FeaturedReview({ data }) {
   return (
@@ -62,7 +63,9 @@ function FeaturedReview({ data }) {
               <ThumbUpIcon />
             </ListItemIcon>
             <ListItemText>
-              {data.prosDescription}
+              <ExpandableContent>
+                {data.prosDescription}
+              </ExpandableContent>
             </ListItemText>
           </ListItem>
           <ListItem>
@@ -70,7 +73,9 @@ function FeaturedReview({ data }) {
               <ThumbDownIcon />
             </ListItemIcon>
             <ListItemText>
-              {data.consDescription}
+              <ExpandableContent>
+                {data.consDescription}
+              </ExpandableContent>
             </ListItemText>
           </ListItem>
         </List>
