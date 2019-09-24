@@ -94,3 +94,6 @@ public
 
 # DynamoDB Local files
 .dynamodb/
+
+# VS Code droppings
+.DS_Store

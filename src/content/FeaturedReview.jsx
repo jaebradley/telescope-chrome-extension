@@ -7,7 +7,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Rating from '@material-ui/lab/Rating';
 import List from '@material-ui/core/List';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -15,6 +14,8 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import LabelIcon from '@material-ui/icons/Label';
 import GradeIcon from '@material-ui/icons/Grade';
 import PropTypes from 'prop-types';
+
+import Rating from './Rating';
 
 import ExpandableContent from './ExpandableContent';
 
@@ -36,18 +37,18 @@ function FeaturedReview({ data }) {
             <ListItemIcon>
               <GradeIcon />
             </ListItemIcon>
-            <Rating
-              value={data.overallRating}
-              precision={0.1}
-              readOnly
-            />
+            <Rating>
+              { data.overallRating }
+            </Rating>
           </ListItem>
           <ListItem>
             <ListItemIcon>
               <LocationCityIcon />
             </ListItemIcon>
             <ListItemText>
-              {data.location}
+              <Typography>
+                {data.location}
+              </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>
@@ -55,7 +56,9 @@ function FeaturedReview({ data }) {
               <LabelIcon />
             </ListItemIcon>
             <ListItemText>
-              {data.jobTitle}
+              <Typography>
+                {data.jobTitle}
+              </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>

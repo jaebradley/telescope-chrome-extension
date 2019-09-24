@@ -38,6 +38,10 @@ const useStyles = makeStyles({
   title: {
     flexGrow: 1,
     color: 'white',
+    textAlign: 'center',
+  },
+  closeButton: {
+    color: 'white',
   },
 });
 
@@ -108,10 +112,22 @@ export default function App() {
       >
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
+            <span
+              role="img"
+              aria-label="telescope"
+            >
+              🔭
+            </span>
+            <Typography
+              variant="h5"
+              className={classes.title}
+            >
               Telescope
             </Typography>
-            <IconButton onClick={() => setOpen(false)}>
+            <IconButton
+              className={classes.closeButton}
+              onClick={() => setOpen(false)}
+            >
               <CloseIcon />
             </IconButton>
           </Toolbar>
