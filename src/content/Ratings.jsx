@@ -8,7 +8,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Rating from '@material-ui/lab/Rating';
 import List from '@material-ui/core/List';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -19,6 +18,8 @@ import {
 } from '@material-ui/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+
+import Rating from './Rating';
 
 const useStyles = makeStyles({
   listItem: {
@@ -52,11 +53,9 @@ function Ratings({ companyName, logoURL, data }) {
               />
             </ListItemAvatar>
           </Tooltip>
-          <Rating
-            value={data.overall}
-            precision={0.1}
-            readOnly
-          />
+          <Rating>
+            { data.overall }
+          </Rating>
         </ListItem>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
@@ -70,11 +69,9 @@ function Ratings({ companyName, logoURL, data }) {
                 <AttachMoneyIcon />
               </ListItemIcon>
             </Tooltip>
-            <Rating
-              value={data.compensationAndBenefits}
-              precision={0.1}
-              readOnly
-            />
+            <Rating>
+              { data.compensationAndBenefits }
+            </Rating>
           </ListItem>
           <ListItem>
             <Tooltip
@@ -85,11 +82,9 @@ function Ratings({ companyName, logoURL, data }) {
                 <TrendingUpIcon />
               </ListItemIcon>
             </Tooltip>
-            <Rating
-              value={data.careerOpportunities}
-              precision={0.1}
-              readOnly
-            />
+            <Rating>
+              { data.careerOpportunities }
+            </Rating>
           </ListItem>
           <ListItem>
             <Tooltip
@@ -100,11 +95,9 @@ function Ratings({ companyName, logoURL, data }) {
                 <DirectionsBikeIcon />
               </ListItemIcon>
             </Tooltip>
-            <Rating
-              value={data.workLifeBalance}
-              precision={0.1}
-              readOnly
-            />
+            <Rating>
+              { data.workLifeBalance }
+            </Rating>
           </ListItem>
           <ListItem>
             <ListItemIcon>

@@ -6,6 +6,9 @@ import axios from 'axios';
 import Portal from '@material-ui/core/Portal';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -31,6 +34,14 @@ const useStyles = makeStyles({
   },
   unableToIdentifyCompany: {
     padding: 40,
+  },
+  title: {
+    flexGrow: 1,
+    color: 'white',
+    textAlign: 'center',
+  },
+  closeButton: {
+    color: 'white',
   },
 });
 
@@ -99,9 +110,28 @@ export default function App() {
           )
         }
       >
-        <IconButton onClick={() => setOpen(false)}>
-          <CloseIcon />
-        </IconButton>
+        <AppBar position="static">
+          <Toolbar>
+            <span
+              role="img"
+              aria-label="telescope"
+            >
+              🔭
+            </span>
+            <Typography
+              variant="h5"
+              className={classes.title}
+            >
+              Telescope
+            </Typography>
+            <IconButton
+              className={classes.closeButton}
+              onClick={() => setOpen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
         { !ableToIdentifyCompany && <UnableToIdentifyCompany selectedText={selectedText} /> }
         {
           ableToIdentifyCompany && (
