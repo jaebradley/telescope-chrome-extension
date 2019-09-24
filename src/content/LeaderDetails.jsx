@@ -15,14 +15,18 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: 0,
     alignItems: 'center',
   },
-});
+  primaryContent: {
+    color: theme.palette.primary.main,
+  },
+}));
 
 
 function LeaderDetails({ data }) {
@@ -46,36 +50,44 @@ function LeaderDetails({ data }) {
             />
           </ListItemAvatar>
           <ListItemText>
-            {data.title}
-            {' '}
-            {data.name}
+            <Typography className={classes.primaryContent}>
+              {data.title}
+              {' '}
+              {data.name}
+            </Typography>
           </ListItemText>
         </ListItem>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <List>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <ThumbUpIcon />
             </ListItemIcon>
             <ListItemText>
-              {`${data.approvalPercentage}%`}
+              <Typography className={classes.primaryContent}>
+                {`${data.approvalPercentage}%`}
+              </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <ThumbDownIcon />
             </ListItemIcon>
             <ListItemText>
-              {`${data.disapprovalPercentage}%`}
+              <Typography className={classes.primaryContent}>
+                {`${data.disapprovalPercentage}%`}
+              </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <PollIcon />
             </ListItemIcon>
             <ListItemText>
-              {`${data.ratingsCount} reviews`}
+              <Typography className={classes.primaryContent}>
+                {`${data.ratingsCount} reviews`}
+              </Typography>
             </ListItemText>
           </ListItem>
         </List>

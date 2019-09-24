@@ -13,13 +13,23 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import LabelIcon from '@material-ui/icons/Label';
 import GradeIcon from '@material-ui/icons/Grade';
+import {
+  makeStyles,
+} from '@material-ui/styles'
 import PropTypes from 'prop-types';
 
 import Rating from './Rating';
-
 import ExpandableContent from './ExpandableContent';
 
+const useStyles = makeStyles((theme) => ({
+  primaryContent: {
+    color: theme.palette.primary.main,
+  },
+}));
+
 function FeaturedReview({ data }) {
+  const classes = useStyles();
+
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -27,14 +37,14 @@ function FeaturedReview({ data }) {
         aria-controls="featured-review-content"
         id="featured-review-panel-header"
       >
-        <Typography>
+        <Typography className={classes.primaryContent}>
           {`Featured Review: "${data.headline}"`}
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <List>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <GradeIcon />
             </ListItemIcon>
             <Rating>
@@ -42,27 +52,27 @@ function FeaturedReview({ data }) {
             </Rating>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <LocationCityIcon />
             </ListItemIcon>
             <ListItemText>
-              <Typography>
+              <Typography className={classes.primaryContent}>
                 {data.location}
               </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <LabelIcon />
             </ListItemIcon>
             <ListItemText>
-              <Typography>
+              <Typography className={classes.primaryContent}>
                 {data.jobTitle}
               </Typography>
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <ThumbUpIcon />
             </ListItemIcon>
             <ListItemText>
@@ -72,7 +82,7 @@ function FeaturedReview({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <ThumbDownIcon />
             </ListItemIcon>
             <ListItemText>
