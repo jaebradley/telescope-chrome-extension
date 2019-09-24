@@ -69,11 +69,11 @@ module.exports = {
         from: 'src/manifest.json',
         to: OUTPUT_PATH,
       },
-      // {
-      //   from: 'source/icons',
-      //   to: 'icons',
-      //   toType: 'dir',
-      // },
+      {
+        from: 'src/icons',
+        to: 'icons',
+        toType: 'dir',
+      },
       {
         from: 'src/popup.html',
         to: OUTPUT_PATH,
