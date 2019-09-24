@@ -21,12 +21,15 @@ import PropTypes from 'prop-types';
 
 import Rating from './Rating';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: 0,
     alignItems: 'center',
   },
-});
+  primaryContent: {
+    color: theme.palette.primary.main,
+  },
+}));
 
 function Ratings({ companyName, logoURL, data }) {
   const classes = useStyles();
@@ -65,7 +68,7 @@ function Ratings({ companyName, logoURL, data }) {
               title={`Compensation & Benefits: ${data.compensationAndBenefits}`}
               aria-label={`Compensation & Benefits: ${data.compensationAndBenefits}`}
             >
-              <ListItemIcon>
+              <ListItemIcon className={classes.primaryContent}>
                 <AttachMoneyIcon />
               </ListItemIcon>
             </Tooltip>
@@ -78,7 +81,7 @@ function Ratings({ companyName, logoURL, data }) {
               title={`Career Opportunities: ${data.careerOpportunities}`}
               aria-label={`Career Opportunities : ${data.careerOpportunities}`}
             >
-              <ListItemIcon>
+              <ListItemIcon className={classes.primaryContent}>
                 <TrendingUpIcon />
               </ListItemIcon>
             </Tooltip>
@@ -91,7 +94,7 @@ function Ratings({ companyName, logoURL, data }) {
               title={`Work/Life Balance: ${data.workLifeBalance}`}
               aria-label={`Work/Life Balance: ${data.workLifeBalance}`}
             >
-              <ListItemIcon>
+              <ListItemIcon className={classes.primaryContent}>
                 <DirectionsBikeIcon />
               </ListItemIcon>
             </Tooltip>
@@ -100,7 +103,7 @@ function Ratings({ companyName, logoURL, data }) {
             </Rating>
           </ListItem>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon className={classes.primaryContent}>
               <PollIcon />
             </ListItemIcon>
             <ListItemText>
