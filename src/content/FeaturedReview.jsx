@@ -13,9 +13,10 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import LabelIcon from '@material-ui/icons/Label';
 import GradeIcon from '@material-ui/icons/Grade';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
   makeStyles,
-} from '@material-ui/styles'
+} from '@material-ui/styles';
 import PropTypes from 'prop-types';
 
 import Rating from './Rating';
@@ -44,17 +45,27 @@ function FeaturedReview({ data }) {
       <ExpansionPanelDetails>
         <List>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <GradeIcon />
-            </ListItemIcon>
+            <Tooltip
+              title={`Overall Rating: ${data.overallRating}`}
+              aria-label={`Overall Rating: ${data.overallRating}`}
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <GradeIcon />
+              </ListItemIcon>
+            </Tooltip>
             <Rating>
               { data.overallRating }
             </Rating>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <LocationCityIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Location"
+              aria-label="Location"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <LocationCityIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
                 {data.location}
@@ -62,9 +73,14 @@ function FeaturedReview({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <LabelIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Job Title"
+              aria-label="Job Title"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <LabelIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
                 {data.jobTitle}
@@ -72,9 +88,14 @@ function FeaturedReview({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <ThumbUpIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Pros"
+              aria-label="Pros"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <ThumbUpIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <ExpandableContent>
                 {data.prosDescription}
@@ -82,9 +103,14 @@ function FeaturedReview({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <ThumbDownIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Cons"
+              aria-label="Cons"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <ThumbDownIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <ExpandableContent>
                 {data.consDescription}

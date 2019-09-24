@@ -46,8 +46,8 @@ function Ratings({ companyName, logoURL, data }) {
           className={classes.listItem}
         >
           <Tooltip
-            title={`Overall: ${data.overall}`}
-            aria-label={`Overall: ${data.overall}`}
+            title={`Overall Rating for ${companyName}: ${data.overall}`}
+            aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
           >
             <ListItemAvatar>
               <Avatar
@@ -103,9 +103,14 @@ function Ratings({ companyName, logoURL, data }) {
             </Rating>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <PollIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Number of Reviews"
+              aria-label="Number of Reviews"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <PollIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               {`${data.count} reviews`}
             </ListItemText>

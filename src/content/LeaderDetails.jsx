@@ -16,6 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,9 +62,14 @@ function LeaderDetails({ data }) {
       <ExpansionPanelDetails>
         <List>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <ThumbUpIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Approval percentage"
+              aria-label="Approval percentage"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <ThumbUpIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
                 {`${data.approvalPercentage}%`}
@@ -71,9 +77,14 @@ function LeaderDetails({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <ThumbDownIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Disapproval percentage"
+              aria-label="Disapproval percentage"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <ThumbDownIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
                 {`${data.disapprovalPercentage}%`}
@@ -81,9 +92,14 @@ function LeaderDetails({ data }) {
             </ListItemText>
           </ListItem>
           <ListItem>
-            <ListItemIcon className={classes.primaryContent}>
-              <PollIcon />
-            </ListItemIcon>
+            <Tooltip
+              title="Number of Reviews"
+              aria-label="Number of Reviews"
+            >
+              <ListItemIcon className={classes.primaryContent}>
+                <PollIcon />
+              </ListItemIcon>
+            </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
                 {`${data.ratingsCount} reviews`}
