@@ -6,6 +6,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import PollIcon from '@material-ui/icons/Poll';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import WorkIcon from '@material-ui/icons/Work';
 import Avatar from '@material-ui/core/Avatar';
 import {
   makeStyles,
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     color: theme.palette.primary.main,
+  },
+  avatar: {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -53,12 +58,41 @@ function LeaderDetails({ data }) {
           alignItems="flex-start"
           className={classes.listItem}
         >
-          <ListItemAvatar>
-            <Avatar
-              alt={data.name}
-              src={data.image.url}
-            />
-          </ListItemAvatar>
+          {
+            data.image
+              && data.image.url
+              && (
+                <ListItemAvatar>
+                  <Avatar
+                    alt={data.name}
+                    src={data.image.url}
+                  />
+                </ListItemAvatar>
+              )
+          }
+          {
+            !data.image
+              && data.name
+              && (
+                <ListItemAvatar>
+                  <Avatar
+                    className={classes.avatar}
+                    alt={data.name}
+                  >
+                    {data.name[0]}
+                  </Avatar>
+                </ListItemAvatar>
+              )
+          }
+          {
+            !data.image
+              && !data.name
+              && (
+                <ListItemIcon className={classes.primaryContent}>
+                  <WorkIcon />
+                </ListItemIcon>
+              )
+          }
           <ListItemText>
             <Typography className={classes.primaryContent}>
               {data.title}
