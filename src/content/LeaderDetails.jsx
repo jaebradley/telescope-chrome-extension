@@ -18,6 +18,7 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+import isNumber from 'lodash-es/isNumber';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -28,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
 }));
+
+const formatPercentage = (value) => {
+  if (isNumber(value)) {
+    return `${value}%`;
+  }
+
+  return 'N/A';
+};
 
 
 function LeaderDetails({ data }) {
@@ -72,7 +81,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {`${data.approvalPercentage}%`}
+                {formatPercentage(data.approvalPercentage)}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -87,7 +96,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {`${data.disapprovalPercentage}%`}
+                {formatPercentage(data.disapprovalPercentage)}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -102,7 +111,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {`${data.ratingsCount} reviews`}
+                {`${Number(data.ratingsCount).toLocaleString()} reviews`}
               </Typography>
             </ListItemText>
           </ListItem>

@@ -68,7 +68,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {data.location}
+                {data.location || 'N/A'}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -98,7 +98,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <ExpandableContent>
-                {data.prosDescription}
+                {data.prosDescription || 'N/A'}
               </ExpandableContent>
             </ListItemText>
           </ListItem>
@@ -113,7 +113,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <ExpandableContent>
-                {data.consDescription}
+                {data.consDescription || 'N/A'}
               </ExpandableContent>
             </ListItemText>
           </ListItem>
