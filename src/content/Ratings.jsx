@@ -5,6 +5,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -28,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     color: theme.palette.primary.main,
+  },
+  glassdoorImage: {
+    height: 12,
+  },
+  attribution: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));
 
@@ -114,6 +123,27 @@ function Ratings({ companyName, logoURL, data }) {
             <ListItemText>
               {`${Number(data.count).toLocaleString()} reviews`}
             </ListItemText>
+          </ListItem>
+          <ListItem>
+            <div>
+              <a
+                className={classes.attribution}
+                href="https://www.glassdoor.com/index.htm"
+              >
+                <Typography
+                  className={classes.primaryContent}
+                  variant="caption"
+                >
+                  powered by&nbsp;
+                </Typography>
+                <img
+                  className={classes.glassdoorImage}
+                  alt="glassdoor logo"
+                  src="https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png"
+                  title="Job Search"
+                />
+              </a>
+            </div>
           </ListItem>
         </List>
       </ExpansionPanelDetails>
