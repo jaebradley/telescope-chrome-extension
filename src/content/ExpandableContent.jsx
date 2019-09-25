@@ -8,6 +8,8 @@ import {
   makeStyles,
 } from '@material-ui/styles';
 
+const MAX_DISPLAYABLE_CONTENT_LENGTH = 30;
+
 const useStyles = makeStyles({
   visuallyHidden: {
     clip: 'rect(1px, 1px, 1px, 1px)',
@@ -27,14 +29,15 @@ function ExpandableContent({ children }) {
   ] = useState(false);
 
   const handleExpandClick = useCallback(() => setExpanded(true), []);
+  const expandable = children.length > MAX_DISPLAYABLE_CONTENT_LENGTH;
 
   return (
     <div>
       { /* @jaebradley: move this to a prop in the future, probably */ }
-      { children.slice(0, 30) }
+      { children.slice(0, MAX_DISPLAYABLE_CONTENT_LENGTH) }
       {
         !expanded
-          && children.length > 30
+          && expandable
           && (
             <button
               type="button"
@@ -47,9 +50,9 @@ function ExpandableContent({ children }) {
           )
       }
       {
-        children.length > 30 && (
+        expandable && (
           <span className={classNames({ [classes.visuallyHidden]: !expanded })}>
-            { children.slice(30) }
+            { children.slice(MAX_DISPLAYABLE_CONTENT_LENGTH) }
           </span>
         )
       }
