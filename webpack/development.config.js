@@ -4,9 +4,13 @@ const WebpackBuildNotifier = require('webpack-build-notifier');
 const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const Dotenv = require('dotenv-webpack');
 const {
-  ENV_FILE_PATH,
-} = require('./constants');
+  CleanWebpackPlugin,
+} = require('clean-webpack-plugin');
 
+const {
+  ENV_FILE_PATH,
+  OUTPUT_PATH,
+} = require('./constants');
 const common = require('./common.config');
 
 module.exports = merge.smart(
@@ -20,6 +24,9 @@ module.exports = merge.smart(
     },
     plugins: [
       // new BundleAnalyzerPlugin(),
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: [OUTPUT_PATH],
+      }),
       new Dotenv({
         path: ENV_FILE_PATH,
       }),
