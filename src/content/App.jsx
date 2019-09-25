@@ -198,6 +198,7 @@ export default function App() {
                 <IconButton
                   className={classes.primary}
                   onClick={handleViewingPreviousCompany}
+                  disabled={!companies || companies.length <= 1}
                 >
                   <KeyboardArrowLeftIcon />
                 </IconButton>
@@ -210,6 +211,7 @@ export default function App() {
                 <IconButton
                   className={classes.primary}
                   onClick={handleViewingNextCompany}
+                  disabled={!companies || companies.length <= 1}
                 >
                   <KeyboardArrowRightIcon />
                 </IconButton>
