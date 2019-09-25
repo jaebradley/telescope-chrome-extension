@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useState,
+  useCallback,
 } from 'react';
 import axios from 'axios';
 import Portal from '@material-ui/core/Portal';
@@ -9,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import Paper from '@material-ui/core/Paper';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -20,12 +24,11 @@ import Ratings from './Ratings';
 import {
   API_BASE_URL,
   APP_ELEMENT_ID,
-  DEFAULT_DATA,
 } from './constants';
 import transformEmployer from './data/transformEmployer';
 import UnableToIdentifyCompany from './UnableToIdentifyCompany';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: 50,
   },
@@ -43,7 +46,15 @@ const useStyles = makeStyles({
   closeButton: {
     color: 'white',
   },
-});
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  primary: {
+    color: theme.palette.primary.main,
+  },
+}));
 
 const isValidResponse = (response) => !!response
   && !!response.data
@@ -54,9 +65,13 @@ const isValidResponse = (response) => !!response
 export default function App() {
   const classes = useStyles();
   const [
-    data,
-    setData,
-  ] = useState(DEFAULT_DATA);
+    currentCompanyIndex,
+    setCurrentCompanyIndex,
+  ] = useState(null);
+  const [
+    companies,
+    setCompanies,
+  ] = useState([]);
   const [
     open,
     setOpen,
@@ -81,14 +96,12 @@ export default function App() {
         .then((response) => {
           if (isValidResponse(response)) {
             const responseData = response.data.response;
-            const firstEmployer = responseData.employers[0];
-            setData({
-              ...transformEmployer(firstEmployer),
-              reviewsURL: responseData.attributionURL,
-            });
+            setCompanies(responseData.employers.slice(0, 5).map(transformEmployer));
+            setCurrentCompanyIndex(0);
             setAbleToIdentifyCompany(true);
           } else {
-            setData(DEFAULT_DATA);
+            setCompanies([]);
+            setCurrentCompanyIndex(null);
             setAbleToIdentifyCompany(false);
           }
           setOpen(true);
@@ -98,6 +111,22 @@ export default function App() {
     chrome.extension.onMessage.addListener(({ selectionText }) => handleSelectedText(selectionText));
     return chrome.extension.onMessage.removeListener(handleSelectedText);
   }, []);
+
+  const handleViewingPreviousCompany = useCallback(() => {
+    if (currentCompanyIndex <= 0) {
+      setCurrentCompanyIndex(companies.length - 1);
+    } else {
+      setCurrentCompanyIndex(currentCompanyIndex - 1);
+    }
+  }, [currentCompanyIndex, companies]);
+
+  const handleViewingNextCompany = useCallback(() => {
+    if (currentCompanyIndex >= companies.length - 1) {
+      setCurrentCompanyIndex(0);
+    } else {
+      setCurrentCompanyIndex(currentCompanyIndex + 1);
+    }
+  }, [currentCompanyIndex, companies]);
 
   return (
     <Portal
@@ -139,13 +168,37 @@ export default function App() {
         {
           ableToIdentifyCompany && (
             <>
+              <Paper className={classes.header}>
+                <IconButton
+                  className={classes.primary}
+                  onClick={handleViewingPreviousCompany}
+                >
+                  <KeyboardArrowLeftIcon />
+                </IconButton>
+                <Typography
+                  className={classes.primary}
+                  variant="h6"
+                >
+                  {companies[currentCompanyIndex].name}
+                </Typography>
+                <IconButton
+                  className={classes.primary}
+                  onClick={handleViewingNextCompany}
+                >
+                  <KeyboardArrowRightIcon />
+                </IconButton>
+              </Paper>
               <Ratings
-                logoURL={data.logoURL}
-                companyName={data.name}
-                data={data.ratings}
+                logoURL={companies[currentCompanyIndex].logoURL}
+                companyName={companies[currentCompanyIndex].name}
+                data={companies[currentCompanyIndex].ratings}
               />
-              <LeaderDetails data={data.leader} />
-              <FeaturedReview data={data.featuredReview} />
+              {
+                companies[currentCompanyIndex].leader && <LeaderDetails data={companies[currentCompanyIndex].leader} />
+              }
+              {
+                companies[currentCompanyIndex].featuredReview && <FeaturedReview data={companies[currentCompanyIndex].featuredReview} />
+              }
             </>
           )
         }
