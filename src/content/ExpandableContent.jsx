@@ -8,7 +8,7 @@ import {
   makeStyles,
 } from '@material-ui/styles';
 
-const MAX_DISPLAYABLE_CONTENT_LENGTH = 30;
+const MAX_DISPLAYABLE_CONTENT_LENGTH = 35;
 
 const useStyles = makeStyles({
   visuallyHidden: {

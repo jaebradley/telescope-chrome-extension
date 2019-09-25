@@ -6,7 +6,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import PollIcon from '@material-ui/icons/Poll';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import WorkIcon from '@material-ui/icons/Work';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Avatar from '@material-ui/core/Avatar';
 import {
   makeStyles,
@@ -89,7 +89,7 @@ function LeaderDetails({ data }) {
               && !data.name
               && (
                 <ListItemIcon className={classes.primaryContent}>
-                  <WorkIcon />
+                  <EmojiPeopleIcon />
                 </ListItemIcon>
               )
           }
