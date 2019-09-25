@@ -112,7 +112,7 @@ function Ratings({ companyName, logoURL, data }) {
               </ListItemIcon>
             </Tooltip>
             <ListItemText>
-              {`${data.count} reviews`}
+              {`${Number(data.count).toLocaleString()} reviews`}
             </ListItemText>
           </ListItem>
         </List>

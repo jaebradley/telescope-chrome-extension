@@ -111,7 +111,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {`${data.ratingsCount} reviews`}
+                {`${Number(data.ratingsCount).toLocaleString()} reviews`}
               </Typography>
             </ListItemText>
           </ListItem>

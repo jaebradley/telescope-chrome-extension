@@ -31,22 +31,28 @@ function ExpandableContent({ children }) {
   return (
     <div>
       { /* @jaebradley: move this to a prop in the future, probably */ }
-      { children.slice(0, 25) }
+      { children.slice(0, 30) }
       {
-        !expanded && (
-          <button
-            type="button"
-            onClick={handleExpandClick}
-            onKeyDown={handleExpandClick}
-            tabIndex={-1}
-          >
-            ...
-          </button>
+        !expanded
+          && children.length > 30
+          && (
+            <button
+              type="button"
+              onClick={handleExpandClick}
+              onKeyDown={handleExpandClick}
+              tabIndex={-1}
+            >
+              ...
+            </button>
+          )
+      }
+      {
+        children.length > 30 && (
+          <span className={classNames({ [classes.visuallyHidden]: !expanded })}>
+            { children.slice(30) }
+          </span>
         )
       }
-      <span className={classNames({ [classes.visuallyHidden]: !expanded })}>
-        { children.slice(25) }
-      </span>
     </div>
   );
 }
