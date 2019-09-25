@@ -14,10 +14,12 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import LabelIcon from '@material-ui/icons/Label';
 import GradeIcon from '@material-ui/icons/Grade';
 import Tooltip from '@material-ui/core/Tooltip';
+import RateReviewIcon from '@material-ui/icons/RateReview';
 import {
   makeStyles,
 } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Rating from './Rating';
 import ExpandableContent from './ExpandableContent';
@@ -25,6 +27,10 @@ import ExpandableContent from './ExpandableContent';
 const useStyles = makeStyles((theme) => ({
   primaryContent: {
     color: theme.palette.primary.main,
+  },
+  icon: {
+    alignItems: 'center',
+    paddingLeft: 10,
   },
 }));
 
@@ -38,8 +44,16 @@ function FeaturedReview({ data }) {
         aria-controls="featured-review-content"
         id="featured-review-panel-header"
       >
+        <Tooltip
+          title="Featured Review"
+          aria-label="Featured Review"
+        >
+          <ListItemIcon className={classNames(classes.primaryContent, classes.icon)}>
+            <RateReviewIcon fontSize="large" />
+          </ListItemIcon>
+        </Tooltip>
         <Typography className={classes.primaryContent}>
-          {`Featured Review: "${data.headline}"`}
+          {`"${data.headline}"`}
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>

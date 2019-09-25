@@ -14,6 +14,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import PollIcon from '@material-ui/icons/Poll';
+import WorkIcon from '@material-ui/icons/Work';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -37,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  avatar: {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
 
 function Ratings({ companyName, logoURL, data }) {
@@ -53,17 +58,55 @@ function Ratings({ companyName, logoURL, data }) {
           alignItems="flex-start"
           className={classes.listItem}
         >
-          <Tooltip
-            title={`Overall Rating for ${companyName}: ${data.overall}`}
-            aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
-          >
-            <ListItemAvatar>
-              <Avatar
-                alt={companyName}
-                src={logoURL}
-              />
-            </ListItemAvatar>
-          </Tooltip>
+          {
+            logoURL
+              && (
+                <Tooltip
+                  title={`Overall Rating for ${companyName}: ${data.overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={companyName}
+                      src={logoURL}
+                    />
+                  </ListItemAvatar>
+                </Tooltip>
+              )
+          }
+          {
+            !logoURL
+              && companyName
+              && (
+                <Tooltip
+                  title={`Overall Rating for ${companyName}: ${data.overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      className={classes.avatar}
+                      alt={companyName}
+                    >
+                      {companyName[0]}
+                    </Avatar>
+                  </ListItemAvatar>
+                </Tooltip>
+              )
+          }
+          {
+            !logoURL
+              && !companyName
+              && (
+                <Tooltip
+                  title={`Overall Rating for ${companyName}: ${data.overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                >
+                  <ListItemIcon className={classes.primaryContent}>
+                    <WorkIcon />
+                  </ListItemIcon>
+                </Tooltip>
+              )
+          }
           <Rating>
             { data.overall }
           </Rating>
