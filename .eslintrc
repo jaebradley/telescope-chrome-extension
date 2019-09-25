@@ -4,5 +4,13 @@
     "browser": true,
     "jest": true,
     "webextensions": true
+  },
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 150
+      }
+    ]
   }
 }

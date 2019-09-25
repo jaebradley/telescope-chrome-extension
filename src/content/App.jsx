@@ -73,11 +73,11 @@ export default function App() {
   const anchorEl = document.getElementById(APP_ELEMENT_ID);
 
   useEffect(() => {
-    chrome.extension.onMessage.addListener(({ selectionText }) => {
-      setSelectedText(selectionText);
+    const handleSelectedText = (text) => {
+      setSelectedText(text);
 
       axios
-        .get(API_BASE_URL, { params: { search_term: selectionText } })
+        .get(API_BASE_URL, { params: { search_term: text } })
         .then((response) => {
           if (isValidResponse(response)) {
             const responseData = response.data.response;
@@ -93,8 +93,11 @@ export default function App() {
           }
           setOpen(true);
         });
-    });
-  });
+    };
+
+    chrome.extension.onMessage.addListener(({ selectionText }) => handleSelectedText(selectionText));
+    return chrome.extension.onMessage.removeListener(handleSelectedText);
+  }, []);
 
   return (
     <Portal

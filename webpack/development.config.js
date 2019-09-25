@@ -25,7 +25,10 @@ module.exports = merge.smart(
     plugins: [
       // new BundleAnalyzerPlugin(),
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [OUTPUT_PATH],
+        // Don't remove the manifest - allow it to be copied
+        cleanOnceBeforeBuildPatterns: [OUTPUT_PATH, '!manifest.json'],
+        // Don't clean manifest or icons after every build
+        cleanAfterEveryBuildPatterns: ['!manifest.json', '!icons/*'],
       }),
       new Dotenv({
         path: ENV_FILE_PATH,
