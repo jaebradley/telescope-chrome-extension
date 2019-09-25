@@ -5,7 +5,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
