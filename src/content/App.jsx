@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -54,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
   primary: {
     color: theme.palette.primary.main,
   },
+  loader: {
+    display: 'flex',
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 const isValidResponse = (response) => !!response
@@ -64,6 +71,10 @@ const isValidResponse = (response) => !!response
 
 export default function App() {
   const classes = useStyles();
+  const [
+    isLoading,
+    setIsLoading,
+  ] = useState(true);
   const [
     currentCompanyIndex,
     setCurrentCompanyIndex,
@@ -89,6 +100,7 @@ export default function App() {
 
   useEffect(() => {
     const handleSelectedText = (text) => {
+      setIsLoading(true);
       setSelectedText(text);
 
       axios
@@ -104,6 +116,13 @@ export default function App() {
             setCurrentCompanyIndex(null);
             setAbleToIdentifyCompany(false);
           }
+          setIsLoading(false);
+          setOpen(true);
+        }).catch(() => {
+          setCompanies([]);
+          setCurrentCompanyIndex(null);
+          setAbleToIdentifyCompany(false);
+          setIsLoading(false);
           setOpen(true);
         });
     };
@@ -164,9 +183,16 @@ export default function App() {
             </IconButton>
           </Toolbar>
         </AppBar>
-        { !ableToIdentifyCompany && <UnableToIdentifyCompany selectedText={selectedText} /> }
         {
-          ableToIdentifyCompany && (
+          isLoading && (
+            <Paper className={classes.header} classes={{ root: classes.loader }}>
+              <CircularProgress />
+            </Paper>
+          )
+        }
+        { !isLoading && !ableToIdentifyCompany && <UnableToIdentifyCompany selectedText={selectedText} /> }
+        {
+          !isLoading && ableToIdentifyCompany && (
             <>
               <Paper className={classes.header}>
                 <IconButton
