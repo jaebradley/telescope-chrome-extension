@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Paper from '@material-ui/core/Paper';
@@ -18,6 +19,7 @@ import {
   makeStyles,
 } from '@material-ui/styles';
 import classnames from 'classnames';
+import { useDebouncedCallback } from 'use-debounce';
 
 import LeaderDetails from './LeaderDetails';
 import FeaturedReview from './FeaturedReview';
@@ -61,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    border: 'none !important',
+    textAlign: 'center',
+    color: `${theme.palette.primary.main} !important`,
+  },
 }));
 
 const isValidResponse = (response) => !!response
@@ -95,6 +102,10 @@ export default function App() {
     selectedText,
     setSelectedText,
   ] = useState('');
+  const [
+    inputText,
+    setInputText,
+  ] = useState('');
 
   const anchorEl = document.getElementById(APP_ELEMENT_ID);
 
@@ -110,10 +121,12 @@ export default function App() {
             const responseData = response.data.response;
             setCompanies(responseData.employers.slice(0, 5).map(transformEmployer));
             setCurrentCompanyIndex(0);
+            setInputText(responseData.employers[0].name);
             setAbleToIdentifyCompany(true);
           } else {
             setCompanies([]);
             setCurrentCompanyIndex(null);
+            setInputText('');
             setAbleToIdentifyCompany(false);
           }
           setIsLoading(false);
@@ -122,6 +135,7 @@ export default function App() {
           setCompanies([]);
           setCurrentCompanyIndex(null);
           setAbleToIdentifyCompany(false);
+          setInputText('');
           setIsLoading(false);
           setOpen(true);
         });
@@ -130,6 +144,40 @@ export default function App() {
     chrome.extension.onMessage.addListener(({ selectionText }) => handleSelectedText(selectionText));
     return chrome.extension.onMessage.removeListener(handleSelectedText);
   }, []);
+
+  const handleInputChange = useCallback((value) => {
+    setIsLoading(true);
+    setSelectedText(value);
+    axios
+      .get(API_BASE_URL, { params: { search_term: value } })
+      .then((response) => {
+        if (isValidResponse(response)) {
+          const responseData = response.data.response;
+          setCompanies(responseData.employers.slice(0, 5).map(transformEmployer));
+          setCurrentCompanyIndex(0);
+          setInputText(responseData.employers[0].name);
+          setAbleToIdentifyCompany(true);
+        } else {
+          setCompanies([]);
+          setCurrentCompanyIndex(null);
+          setInputText('');
+          setAbleToIdentifyCompany(false);
+        }
+        setIsLoading(false);
+        setOpen(true);
+      }).catch(() => {
+        setCompanies([]);
+        setCurrentCompanyIndex(null);
+        setAbleToIdentifyCompany(false);
+        setInputText('');
+        setIsLoading(false);
+        setOpen(true);
+      });
+  }, []);
+
+  const [
+    debouncedInputChangeHandler,
+  ] = useDebouncedCallback(handleInputChange, 500);
 
   const handleViewingPreviousCompany = useCallback(() => {
     if (currentCompanyIndex <= 0) {
@@ -202,12 +250,12 @@ export default function App() {
                 >
                   <KeyboardArrowLeftIcon />
                 </IconButton>
-                <Typography
-                  className={classes.primary}
-                  variant="h6"
-                >
-                  {companies[currentCompanyIndex].name}
-                </Typography>
+                <Input
+                  classes={{ input: classes.input }}
+                  value={inputText}
+                  disableUnderline
+                  onChange={(e) => { setInputText(e.target.value); debouncedInputChangeHandler(e.target.value); }}
+                />
                 <IconButton
                   className={classes.primary}
                   onClick={handleViewingNextCompany}
