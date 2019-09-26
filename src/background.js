@@ -1,6 +1,6 @@
 chrome.contextMenus.create({
   id: 'asdfkljz9xkljsfdkladfasdfasdasdfsf',
-  title: 'See Glassdoor data',
+  title: 'See Glassdoor Data',
   contexts: ['selection'],
 });
 
