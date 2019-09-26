@@ -6,15 +6,15 @@ export default createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#aa00ff',
+      main: '#ea0adf',
       contrastText: 'white',
     },
     secondary: {
-      main: '#ea80fc',
+      main: '#d6fbea',
     },
     text: {
-      primary: '#aa00ff',
-      secondary: 'white',
+      primary: '#ea0adf',
+      secondary: '#d6fbea',
     },
   },
   typography: {
