@@ -91,14 +91,18 @@ export default function App() {
   } = useCompanySearch();
 
   useEffect(() => {
-    const handleSelectedSearchTerm = ({ selectionText }) => {
+    function handleSelectedSearchTerm({ selectionText }) {
       if (!open) {
         setOpen(true);
       }
 
       setInputText(selectionText);
-      search(selectionText);
-    };
+      search(selectionText, ({ nextCompanies, nextCurrentCompanyIndex }) => {
+        if (nextCompanies && nextCompanies[nextCurrentCompanyIndex]) {
+          setInputText(nextCompanies[nextCurrentCompanyIndex].name);
+        }
+      });
+    }
 
     chrome.extension.onMessage.addListener(handleSelectedSearchTerm);
     return () => chrome.extension.onMessage.removeListener(handleSelectedSearchTerm);
@@ -106,7 +110,11 @@ export default function App() {
 
   const [
     debouncedInputChangeHandler,
-  ] = useDebouncedCallback(search, 500);
+  ] = useDebouncedCallback((term) => search(term, ({ nextCompanies, nextCurrentCompanyIndex }) => {
+    if (nextCompanies && nextCompanies[nextCurrentCompanyIndex]) {
+      setInputText(nextCompanies[nextCurrentCompanyIndex].name);
+    }
+  }), 500);
 
   const handleViewingPreviousCompany = useCallback(() => {
     const nextCompanyIndex = currentCompanyIndex <= 0

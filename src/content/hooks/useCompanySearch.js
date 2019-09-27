@@ -34,26 +34,28 @@ export default function useCompanySearch() {
     setCurrentCompanyIndex,
   ] = useState(null);
 
-  const search = useCallback((term) => {
+  const search = useCallback((term, callback = () => {}) => {
     setSearching(true);
     setSearchTerm(term);
+
+    let nextCompanies = [];
+    let nextCurrentCompanyIndex = null;
 
     axios
       .get(API_BASE_URL, { params: { search_term: term } })
       .then((response) => {
         if (isValidResponse(response)) {
-          const responseData = response.data.response;
-          setCompanies(responseData.employers.slice(0, 5).map(transformEmployer));
-          setCurrentCompanyIndex(0);
-        } else {
-          setCompanies([]);
-          setCurrentCompanyIndex(null);
+          nextCompanies = response.data.response.employers.slice(0, 5).map(transformEmployer);
+          nextCurrentCompanyIndex = 0;
         }
-      }).catch(() => {
-        setCompanies([]);
-        setCurrentCompanyIndex(null);
       }).finally(() => {
+        setCompanies(nextCompanies);
+        setCurrentCompanyIndex(nextCurrentCompanyIndex);
         setSearching(false);
+        callback({
+          nextCompanies,
+          nextCurrentCompanyIndex,
+        });
       });
   }, []);
 
