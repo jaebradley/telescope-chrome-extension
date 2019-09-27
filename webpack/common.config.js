@@ -10,7 +10,6 @@ module.exports = {
   entry: {
     content: ENTRY_FILE_PATHS.CONTENT,
     background: ENTRY_FILE_PATHS.BACKGROUND,
-    popup: ENTRY_FILE_PATHS.POPUP,
   },
   output: {
     path: OUTPUT_PATH,
@@ -73,10 +72,6 @@ module.exports = {
         from: 'src/icons',
         to: 'icons',
         toType: 'dir',
-      },
-      {
-        from: 'src/popup.html',
-        to: OUTPUT_PATH,
       },
     ]),
     new WriteFilePlugin(),

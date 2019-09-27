@@ -7,7 +7,6 @@ const ENV_FILE_PATH = path.join(__dirname, '../.env');
 const ENTRY_FILE_PATHS = Object.freeze({
   CONTENT: path.join(__dirname, '../src/content/index.jsx'),
   BACKGROUND: path.join(__dirname, '../src/background.js'),
-  POPUP: path.join(__dirname, '../src/popup/index.jsx'),
 });
 
 module.exports = {
