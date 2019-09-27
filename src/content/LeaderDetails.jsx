@@ -54,10 +54,7 @@ function LeaderDetails({ data }) {
         aria-controls="leader-details-content"
         id="leader-details-panel-header"
       >
-        <ListItem
-          alignItems="flex-start"
-          className={classes.listItem}
-        >
+        <ListItem className={classes.listItem}>
           {
             data.image
               && data.image.url
