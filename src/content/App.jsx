@@ -9,11 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import Paper from '@material-ui/core/Paper';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   makeStyles,
 } from '@material-ui/styles';
@@ -28,6 +23,8 @@ import {
 } from './constants';
 import UnableToIdentifyCompany from './UnableToIdentifyCompany';
 import useCompanySearch from './hooks/useCompanySearch';
+import Header from './Header';
+import Loader from './Loader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,24 +44,8 @@ const useStyles = makeStyles((theme) => ({
   closeButton: {
     color: 'white',
   },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   primary: {
     color: theme.palette.primary.main,
-  },
-  loader: {
-    display: 'flex',
-    height: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    border: 'none !important',
-    textAlign: 'center',
-    color: `${theme.palette.primary.main} !important`,
   },
 }));
 
@@ -86,7 +67,6 @@ export default function App() {
     companies,
     currentCompanyIndex,
     searching,
-    searchTerm,
     setCurrentCompanyIndex,
   } = useCompanySearch();
 
@@ -171,43 +151,27 @@ export default function App() {
           </Toolbar>
         </AppBar>
         {
-          searching && (
-            <Paper className={classes.header} classes={{ root: classes.loader }}>
-              <CircularProgress />
-            </Paper>
-          )
+          <Header
+            disableButtons={!companies || companies.length <= 1}
+            disableInput={searching}
+            inputText={inputText}
+            onPreviousCompanyClick={handleViewingPreviousCompany}
+            onNextCompanyClick={handleViewingNextCompany}
+            onInputTextChange={(e) => {
+              setInputText(e.target.value);
+              debouncedInputChangeHandler(e.target.value);
+            }}
+          />
         }
-        { !searching && !companies.length && <UnableToIdentifyCompany selectedText={searchTerm} /> }
+        { !searching && !companies.length && <UnableToIdentifyCompany /> }
+        {
+          searching && <Loader />
+        }
         {
           !searching
             && companies.length
             && (
               <>
-                <Paper className={classes.header}>
-                  <IconButton
-                    className={classes.primary}
-                    onClick={handleViewingPreviousCompany}
-                    disabled={!companies || companies.length <= 1}
-                  >
-                    <KeyboardArrowLeftIcon />
-                  </IconButton>
-                  <Input
-                    classes={{ input: classes.input }}
-                    value={inputText}
-                    disableUnderline
-                    onChange={(e) => {
-                      setInputText(e.target.value);
-                      debouncedInputChangeHandler(e.target.value);
-                    }}
-                  />
-                  <IconButton
-                    className={classes.primary}
-                    onClick={handleViewingNextCompany}
-                    disabled={!companies || companies.length <= 1}
-                  >
-                    <KeyboardArrowRightIcon />
-                  </IconButton>
-                </Paper>
                 <Ratings
                   logoURL={companies[currentCompanyIndex].logoURL}
                   companyName={companies[currentCompanyIndex].name}
