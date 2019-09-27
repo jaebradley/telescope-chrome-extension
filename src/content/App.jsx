@@ -3,13 +3,13 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import axios from 'axios';
 import Portal from '@material-ui/core/Portal';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Paper from '@material-ui/core/Paper';
@@ -18,16 +18,16 @@ import {
   makeStyles,
 } from '@material-ui/styles';
 import classnames from 'classnames';
+import { useDebouncedCallback } from 'use-debounce';
 
 import LeaderDetails from './LeaderDetails';
 import FeaturedReview from './FeaturedReview';
 import Ratings from './Ratings';
 import {
-  API_BASE_URL,
   APP_ELEMENT_ID,
 } from './constants';
-import transformEmployer from './data/transformEmployer';
 import UnableToIdentifyCompany from './UnableToIdentifyCompany';
+import useCompanySearch from './hooks/useCompanySearch';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,90 +61,69 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    border: 'none !important',
+    textAlign: 'center',
+    color: `${theme.palette.primary.main} !important`,
+  },
 }));
-
-const isValidResponse = (response) => !!response
-  && !!response.data
-  && !!response.data.response
-  && !!response.data.response.employers
-  && !!response.data.response.employers.length;
 
 export default function App() {
   const classes = useStyles();
-  const [
-    isLoading,
-    setIsLoading,
-  ] = useState(true);
-  const [
-    currentCompanyIndex,
-    setCurrentCompanyIndex,
-  ] = useState(null);
-  const [
-    companies,
-    setCompanies,
-  ] = useState([]);
   const [
     open,
     setOpen,
   ] = useState(false);
   const [
-    ableToIdentifyCompany,
-    setAbleToIdentifyCompany,
-  ] = useState(false);
-  const [
-    selectedText,
-    setSelectedText,
+    inputText,
+    setInputText,
   ] = useState('');
 
   const anchorEl = document.getElementById(APP_ELEMENT_ID);
 
-  useEffect(() => {
-    const handleSelectedText = (text) => {
-      setIsLoading(true);
-      setSelectedText(text);
+  const {
+    search,
+    companies,
+    currentCompanyIndex,
+    searching,
+    searchTerm,
+    setCurrentCompanyIndex,
+  } = useCompanySearch();
 
-      axios
-        .get(API_BASE_URL, { params: { search_term: text } })
-        .then((response) => {
-          if (isValidResponse(response)) {
-            const responseData = response.data.response;
-            setCompanies(responseData.employers.slice(0, 5).map(transformEmployer));
-            setCurrentCompanyIndex(0);
-            setAbleToIdentifyCompany(true);
-          } else {
-            setCompanies([]);
-            setCurrentCompanyIndex(null);
-            setAbleToIdentifyCompany(false);
-          }
-          setIsLoading(false);
-          setOpen(true);
-        }).catch(() => {
-          setCompanies([]);
-          setCurrentCompanyIndex(null);
-          setAbleToIdentifyCompany(false);
-          setIsLoading(false);
-          setOpen(true);
-        });
+  useEffect(() => {
+    const handleSelectedSearchTerm = ({ selectionText }) => {
+      if (!open) {
+        setOpen(true);
+      }
+
+      setInputText(selectionText);
+      search(selectionText);
     };
 
-    chrome.extension.onMessage.addListener(({ selectionText }) => handleSelectedText(selectionText));
-    return chrome.extension.onMessage.removeListener(handleSelectedText);
-  }, []);
+    chrome.extension.onMessage.addListener(handleSelectedSearchTerm);
+    return () => chrome.extension.onMessage.removeListener(handleSelectedSearchTerm);
+  });
+
+  const [
+    debouncedInputChangeHandler,
+  ] = useDebouncedCallback(search, 500);
 
   const handleViewingPreviousCompany = useCallback(() => {
-    if (currentCompanyIndex <= 0) {
-      setCurrentCompanyIndex(companies.length - 1);
-    } else {
-      setCurrentCompanyIndex(currentCompanyIndex - 1);
-    }
+    const nextCompanyIndex = currentCompanyIndex <= 0
+      ? companies.length - 1
+      : currentCompanyIndex - 1;
+
+    setCurrentCompanyIndex(nextCompanyIndex);
+    setInputText(companies[nextCompanyIndex].name);
   }, [currentCompanyIndex, companies]);
 
   const handleViewingNextCompany = useCallback(() => {
-    if (currentCompanyIndex >= companies.length - 1) {
-      setCurrentCompanyIndex(0);
-    } else {
-      setCurrentCompanyIndex(currentCompanyIndex + 1);
-    }
+    const nextCompanyIndex = currentCompanyIndex >= companies.length - 1
+      ? 0
+      : currentCompanyIndex + 1;
+
+    setCurrentCompanyIndex(nextCompanyIndex);
+    setInputText(companies[nextCompanyIndex].name);
   }, [currentCompanyIndex, companies]);
 
   return (
@@ -184,51 +163,56 @@ export default function App() {
           </Toolbar>
         </AppBar>
         {
-          isLoading && (
+          searching && (
             <Paper className={classes.header} classes={{ root: classes.loader }}>
               <CircularProgress />
             </Paper>
           )
         }
-        { !isLoading && !ableToIdentifyCompany && <UnableToIdentifyCompany selectedText={selectedText} /> }
+        { !searching && !companies.length && <UnableToIdentifyCompany selectedText={searchTerm} /> }
         {
-          !isLoading && ableToIdentifyCompany && (
-            <>
-              <Paper className={classes.header}>
-                <IconButton
-                  className={classes.primary}
-                  onClick={handleViewingPreviousCompany}
-                  disabled={!companies || companies.length <= 1}
-                >
-                  <KeyboardArrowLeftIcon />
-                </IconButton>
-                <Typography
-                  className={classes.primary}
-                  variant="h6"
-                >
-                  {companies[currentCompanyIndex].name}
-                </Typography>
-                <IconButton
-                  className={classes.primary}
-                  onClick={handleViewingNextCompany}
-                  disabled={!companies || companies.length <= 1}
-                >
-                  <KeyboardArrowRightIcon />
-                </IconButton>
-              </Paper>
-              <Ratings
-                logoURL={companies[currentCompanyIndex].logoURL}
-                companyName={companies[currentCompanyIndex].name}
-                data={companies[currentCompanyIndex].ratings}
-              />
-              {
-                companies[currentCompanyIndex].leader && <LeaderDetails data={companies[currentCompanyIndex].leader} />
-              }
-              {
-                companies[currentCompanyIndex].featuredReview && <FeaturedReview data={companies[currentCompanyIndex].featuredReview} />
-              }
-            </>
-          )
+          !searching
+            && companies.length
+            && (
+              <>
+                <Paper className={classes.header}>
+                  <IconButton
+                    className={classes.primary}
+                    onClick={handleViewingPreviousCompany}
+                    disabled={!companies || companies.length <= 1}
+                  >
+                    <KeyboardArrowLeftIcon />
+                  </IconButton>
+                  <Input
+                    classes={{ input: classes.input }}
+                    value={inputText}
+                    disableUnderline
+                    onChange={(e) => {
+                      setInputText(e.target.value);
+                      debouncedInputChangeHandler(e.target.value);
+                    }}
+                  />
+                  <IconButton
+                    className={classes.primary}
+                    onClick={handleViewingNextCompany}
+                    disabled={!companies || companies.length <= 1}
+                  >
+                    <KeyboardArrowRightIcon />
+                  </IconButton>
+                </Paper>
+                <Ratings
+                  logoURL={companies[currentCompanyIndex].logoURL}
+                  companyName={companies[currentCompanyIndex].name}
+                  data={companies[currentCompanyIndex].ratings}
+                />
+                {
+                  companies[currentCompanyIndex].leader && <LeaderDetails data={companies[currentCompanyIndex].leader} />
+                }
+                {
+                  companies[currentCompanyIndex].featuredReview && <FeaturedReview data={companies[currentCompanyIndex].featuredReview} />
+                }
+              </>
+            )
         }
       </div>
     </Portal>

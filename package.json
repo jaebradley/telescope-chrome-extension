@@ -38,7 +38,8 @@
     "prop-types": "^15.7.2",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "use-debounce": "^3.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
