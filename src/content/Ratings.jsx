@@ -44,7 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Ratings({ companyName, logoURL, data }) {
+function Ratings({
+  companyName,
+  logoURL,
+  careerOpportunities,
+  compensationAndBenefits,
+  count,
+  overall,
+  workLifeBalance,
+}) {
   const classes = useStyles();
 
   return (
@@ -59,8 +67,8 @@ function Ratings({ companyName, logoURL, data }) {
             logoURL
               && (
                 <Tooltip
-                  title={`Overall Rating for ${companyName}: ${data.overall}`}
-                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                  title={`Overall Rating for ${companyName}: ${overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
                   <ListItemAvatar>
                     <Avatar
@@ -77,8 +85,8 @@ function Ratings({ companyName, logoURL, data }) {
               && companyName
               && (
                 <Tooltip
-                  title={`Overall Rating for ${companyName}: ${data.overall}`}
-                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                  title={`Overall Rating for ${companyName}: ${overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
                   <ListItemAvatar>
                     <Avatar
@@ -96,8 +104,8 @@ function Ratings({ companyName, logoURL, data }) {
               && !companyName
               && (
                 <Tooltip
-                  title={`Overall Rating for ${companyName}: ${data.overall}`}
-                  aria-label={`Overall Rating for ${companyName}: ${data.overall}`}
+                  title={`Overall Rating for ${companyName}: ${overall}`}
+                  aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
                   <ListItemIcon className={classes.primaryContent}>
                     <WorkIcon />
@@ -106,7 +114,7 @@ function Ratings({ companyName, logoURL, data }) {
               )
           }
           <Rating>
-            { data.overall }
+            { overall }
           </Rating>
         </ListItem>
       </ExpansionPanelSummary>
@@ -114,41 +122,41 @@ function Ratings({ companyName, logoURL, data }) {
         <List>
           <ListItem>
             <Tooltip
-              title={`Compensation & Benefits: ${data.compensationAndBenefits}`}
-              aria-label={`Compensation & Benefits: ${data.compensationAndBenefits}`}
+              title={`Compensation & Benefits: ${compensationAndBenefits}`}
+              aria-label={`Compensation & Benefits: ${compensationAndBenefits}`}
             >
               <ListItemIcon className={classes.primaryContent}>
                 <AttachMoneyIcon />
               </ListItemIcon>
             </Tooltip>
             <Rating>
-              { data.compensationAndBenefits }
+              { compensationAndBenefits }
             </Rating>
           </ListItem>
           <ListItem>
             <Tooltip
-              title={`Career Opportunities: ${data.careerOpportunities}`}
-              aria-label={`Career Opportunities : ${data.careerOpportunities}`}
+              title={`Career Opportunities: ${careerOpportunities}`}
+              aria-label={`Career Opportunities : ${careerOpportunities}`}
             >
               <ListItemIcon className={classes.primaryContent}>
                 <TrendingUpIcon />
               </ListItemIcon>
             </Tooltip>
             <Rating>
-              { data.careerOpportunities }
+              { careerOpportunities }
             </Rating>
           </ListItem>
           <ListItem>
             <Tooltip
-              title={`Work/Life Balance: ${data.workLifeBalance}`}
-              aria-label={`Work/Life Balance: ${data.workLifeBalance}`}
+              title={`Work/Life Balance: ${workLifeBalance}`}
+              aria-label={`Work/Life Balance: ${workLifeBalance}`}
             >
               <ListItemIcon className={classes.primaryContent}>
                 <DirectionsBikeIcon />
               </ListItemIcon>
             </Tooltip>
             <Rating>
-              { data.workLifeBalance }
+              { workLifeBalance }
             </Rating>
           </ListItem>
           <ListItem>
@@ -161,7 +169,7 @@ function Ratings({ companyName, logoURL, data }) {
               </ListItemIcon>
             </Tooltip>
             <ListItemText>
-              {`${Number(data.count).toLocaleString()} reviews`}
+              {`${Number(count).toLocaleString()} reviews`}
             </ListItemText>
           </ListItem>
           <ListItem>
@@ -194,29 +202,21 @@ function Ratings({ companyName, logoURL, data }) {
 Ratings.propTypes = {
   companyName: PropTypes.string,
   logoURL: PropTypes.string,
-  data: PropTypes.shape({
-    careerOpportunities: PropTypes.number,
-    compensationAndBenefits: PropTypes.number,
-    workLifeBalance: PropTypes.number,
-    overall: PropTypes.number,
-    seniorLeadership: PropTypes.number,
-    count: PropTypes.number,
-    description: PropTypes.string,
-  }),
+  careerOpportunities: PropTypes.number,
+  compensationAndBenefits: PropTypes.number,
+  workLifeBalance: PropTypes.number,
+  overall: PropTypes.number,
+  count: PropTypes.number,
 };
 
 Ratings.defaultProps = {
   companyName: '',
   logoURL: null,
-  data: {
-    careerOpportunities: null,
-    compensationAndBenefits: null,
-    workLifeBalance: null,
-    overall: null,
-    seniorLeadership: null,
-    count: null,
-    description: '',
-  },
+  careerOpportunities: null,
+  compensationAndBenefits: null,
+  workLifeBalance: null,
+  overall: null,
+  count: null,
 };
 
 export default Ratings;
