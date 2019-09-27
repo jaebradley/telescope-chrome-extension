@@ -54,10 +54,7 @@ function Ratings({ companyName, logoURL, data }) {
         aria-controls="ratings-content"
         id="ratings-panel-header"
       >
-        <ListItem
-          alignItems="flex-start"
-          className={classes.listItem}
-        >
+        <ListItem className={classes.listItem}>
           {
             logoURL
               && (
@@ -69,6 +66,7 @@ function Ratings({ companyName, logoURL, data }) {
                     <Avatar
                       alt={companyName}
                       src={logoURL}
+                      style={{ borderRadius: 0 }}
                     />
                   </ListItemAvatar>
                 </Tooltip>
