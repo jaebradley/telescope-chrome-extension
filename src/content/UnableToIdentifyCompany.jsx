@@ -1,36 +1,28 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import {
   makeStyles,
 } from '@material-ui/styles';
-import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
     padding: 40,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
-function UnableToIdentifyCompany({ selectedText }) {
+export default function UnableToIdentifyCompany() {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
-      <Typography variant="h4">
-        Unable to identify company for selected text:
-        {' '}
-        {`'${selectedText}'`}
+      <ErrorOutlineIcon />
+      <Typography variant="h6" color="error">
+        Unable to identify company
       </Typography>
     </Paper>
   );
 }
-
-UnableToIdentifyCompany.propTypes = {
-  selectedText: PropTypes.string,
-};
-
-UnableToIdentifyCompany.defaultProps = {
-  selectedText: null,
-};
-
-export default UnableToIdentifyCompany;
