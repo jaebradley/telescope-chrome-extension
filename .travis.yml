@@ -2,6 +2,8 @@ language: node_js
 cache:
   directories:
     - ~/.npm
+env:
+ - API_BASE_URL=https://telescope-chrome-extension.herokuapp.com/employers
 script:
   - npm run lint
   - npm run test
