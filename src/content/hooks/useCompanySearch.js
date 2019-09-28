@@ -40,8 +40,6 @@ export default function useCompanySearch() {
     let nextCompanies = [];
     let nextCurrentCompanyIndex = null;
 
-    console.log('process env api base url', process.env.API_BASE_URL);
-
     axios
       .get(`${process.env.API_BASE_URL}/employers`, { params: { search_term: term } })
       .then((response) => {
