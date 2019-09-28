@@ -10,6 +10,11 @@
  </a>
  <a href="https://chrome.google.com/webstore/detail/lgphjiclbioogghoddaaekfedbolnofn">
   <img src="https://img.shields.io/chrome-web-store/v/lgphjiclbioogghoddaaekfedbolnofn.svg" alt="chrome-extension-version"></img>
+ <a href="https://chrome.google.com/webstore/detail/lgphjiclbioogghoddaaekfedbolnofn">
+  <img src="https://img.shields.io/chrome-web-store/rating/lgphjiclbioogghoddaaekfedbolnofn.svg" alt="chrome-extension-version"></img>
+ </a>
+ <a href="https://chrome.google.com/webstore/detail/lgphjiclbioogghoddaaekfedbolnofn">
+  <img src="https://img.shields.io/chrome-web-store/users/lgphjiclbioogghoddaaekfedbolnofn.svg" alt="chrome-extension-version"></img>
  </a>
 </p>
 
