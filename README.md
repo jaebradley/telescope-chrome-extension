@@ -8,8 +8,8 @@
  <a href="https://travis-ci.org/jaebradley/telescope-chrome-extension">
   <img src="https://travis-ci.org/jaebradley/telescope-chrome-extension.svg?branch=master" alt="build-status"></img>
  </a>
- <a href="https://chrome.google.com/webstore/detail/telescope/someuuid">
-  <img src="https://img.shields.io/chrome-web-store/v/telescope.svg" alt="chrome-extension-version"></img>
+ <a href="https://chrome.google.com/webstore/detail/lgphjiclbioogghoddaaekfedbolnofn">
+  <img src="https://img.shields.io/chrome-web-store/v/lgphjiclbioogghoddaaekfedbolnofn.svg" alt="chrome-extension-version"></img>
  </a>
 </p>
 
