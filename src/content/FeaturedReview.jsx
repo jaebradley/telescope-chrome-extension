@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingLeft: 10,
   },
+  details: {
+    overflow: 'auto',
+    maxHeight: 300,
+  },
 }));
 
 function FeaturedReview({
@@ -63,7 +67,7 @@ function FeaturedReview({
           {`"${headline}"`}
         </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      <ExpansionPanelDetails className={classes.details}>
         <List>
           <ListItem>
             <Tooltip
