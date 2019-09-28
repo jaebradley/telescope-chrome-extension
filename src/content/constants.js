@@ -1,7 +1,6 @@
-const API_BASE_URL = 'https://telescope-chrome-extension.herokuapp.com/employers';
 const APP_ELEMENT_ID = 'telescope';
 
 export {
-  API_BASE_URL,
+  // eslint-disable-next-line import/prefer-default-export
   APP_ELEMENT_ID,
 };

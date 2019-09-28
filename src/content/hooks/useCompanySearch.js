@@ -4,7 +4,6 @@ import {
 } from 'react';
 import axios from 'axios';
 
-import { API_BASE_URL } from '../constants';
 import transformEmployer from '../data/transformEmployer';
 
 const isValidResponse = (response) => !!response
@@ -41,8 +40,10 @@ export default function useCompanySearch() {
     let nextCompanies = [];
     let nextCurrentCompanyIndex = null;
 
+    console.log('process env api base url', process.env.API_BASE_URL);
+
     axios
-      .get(API_BASE_URL, { params: { search_term: term } })
+      .get(`${process.env.API_BASE_URL}/employers`, { params: { search_term: term } })
       .then((response) => {
         if (isValidResponse(response)) {
           nextCompanies = response.data.response.employers.slice(0, 5).map(transformEmployer);

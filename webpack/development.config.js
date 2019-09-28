@@ -14,7 +14,6 @@ const {
 const common = require('./common.config');
 
 module.exports = merge.smart(
-  common,
   {
     mode: 'development',
     devtool: 'source-map',
@@ -48,4 +47,5 @@ module.exports = merge.smart(
     ],
     watch: true,
   },
+  common,
 );

@@ -1,5 +1,8 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
+const {
+  EnvironmentPlugin,
+} = require('webpack');
 
 const {
   OUTPUT_PATH,
@@ -62,7 +65,11 @@ module.exports = {
     ],
   },
   plugins: [
-    // new CleanWebpackPlugin(),
+    new EnvironmentPlugin({
+      NODE_ENV: 'development',
+      DEBUG: false,
+      API_BASE_URL: 'localhost:8080',
+    }),
     new CopyWebpackPlugin([
       {
         from: 'src/manifest.json',
