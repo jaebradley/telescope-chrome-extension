@@ -7,7 +7,7 @@ module.exports = merge.smart(
   {
     mode: 'production',
     plugins: [
-      new webpack.EnvironmentPlugin(['TELESCOPE_SERVER_BASE_URL']),
+      new webpack.EnvironmentPlugin(['API_BASE_URL']),
     ],
   },
   common,
