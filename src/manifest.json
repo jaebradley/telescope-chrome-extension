@@ -1,7 +1,7 @@
 {
-	"name": "Telescope Chrome Extension",
+	"name": "Telescope",
 	"version": "1.0.0",
-	"description": "Glassdoor Reviews",
+	"description": "Quickly view Glassdoor information in LinkedIn",
 	"homepage_url": "https://github.com/jaebradley/telescope-chrome-extension",
 	"manifest_version": 2,
 	"minimum_chrome_version": "58",
