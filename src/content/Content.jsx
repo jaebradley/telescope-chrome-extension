@@ -25,6 +25,8 @@ function Content({
       />
       {
         leader
+          && leader.title
+          && leader.name
           && (
             <LeaderDetails
               title={leader.title}
@@ -38,6 +40,7 @@ function Content({
       }
       {
         featuredReview
+          && featuredReview.headline
           && (
             <FeaturedReview
               headline={featuredReview.headline}
