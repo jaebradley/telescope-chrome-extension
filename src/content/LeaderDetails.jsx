@@ -53,6 +53,7 @@ function LeaderDetails({
   image,
 }) {
   const classes = useStyles();
+  const hasImageUrl = image && image.url;
 
   return (
     <ExpansionPanel>
@@ -63,8 +64,7 @@ function LeaderDetails({
       >
         <ListItem className={classes.listItem}>
           {
-            image
-              && image.url
+            hasImageUrl
               && (
                 <ListItemAvatar>
                   <Avatar
@@ -75,7 +75,7 @@ function LeaderDetails({
               )
           }
           {
-            !image
+            !hasImageUrl
               && name
               && (
                 <ListItemAvatar>
@@ -89,7 +89,7 @@ function LeaderDetails({
               )
           }
           {
-            !image
+            !hasImageUrl
               && !name
               && (
                 <ListItemIcon className={classes.primaryContent}>
