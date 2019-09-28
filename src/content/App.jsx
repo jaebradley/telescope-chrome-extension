@@ -10,9 +10,7 @@ import {
 import classnames from 'classnames';
 import { useDebouncedCallback } from 'use-debounce';
 
-import LeaderDetails from './LeaderDetails';
-import FeaturedReview from './FeaturedReview';
-import Ratings from './Ratings';
+import Content from './Content';
 import {
   APP_ELEMENT_ID,
 } from './constants';
@@ -53,6 +51,15 @@ export default function App() {
     setCurrentCompanyIndex,
   } = useCompanySearch();
 
+  const handleSearch = (term) => search(
+    term,
+    ({ nextCompanies, nextCurrentCompanyIndex }) => {
+      if (nextCompanies && nextCompanies[nextCurrentCompanyIndex]) {
+        setInputText(nextCompanies[nextCurrentCompanyIndex].name);
+      }
+    },
+  );
+
   useEffect(() => {
     function handleSelectedSearchTerm({ selectionText }) {
       if (!open) {
@@ -60,77 +67,65 @@ export default function App() {
       }
 
       setInputText(selectionText);
-      search(selectionText, ({ nextCompanies, nextCurrentCompanyIndex }) => {
-        if (nextCompanies && nextCompanies[nextCurrentCompanyIndex]) {
-          setInputText(nextCompanies[nextCurrentCompanyIndex].name);
-        }
-      });
+      handleSearch(selectionText);
     }
 
     chrome.extension.onMessage.addListener(handleSelectedSearchTerm);
     return () => chrome.extension.onMessage.removeListener(handleSelectedSearchTerm);
   });
 
-  const [
-    debouncedInputChangeHandler,
-  ] = useDebouncedCallback((term) => search(term, ({ nextCompanies, nextCurrentCompanyIndex }) => {
-    if (nextCompanies && nextCompanies[nextCurrentCompanyIndex]) {
-      setInputText(nextCompanies[nextCurrentCompanyIndex].name);
-    }
-  }), 500);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const [debouncedInputChangeHandler] = useDebouncedCallback(handleSearch, 500);
+  const handleInputHeaderTextChange = useCallback((e) => {
+    setInputText(e.target.value);
+    debouncedInputChangeHandler(e.target.value);
+  }, [setInputText, debouncedInputChangeHandler]);
 
   const handleViewingPreviousCompany = useCallback(() => {
-    const nextCompanyIndex = currentCompanyIndex <= 0
-      ? companies.length - 1
-      : currentCompanyIndex - 1;
+    const isFirstCompany = currentCompanyIndex <= 0;
+    const nextCompanyIndex = isFirstCompany ? companies.length - 1 : currentCompanyIndex - 1;
 
     setCurrentCompanyIndex(nextCompanyIndex);
     setInputText(companies[nextCompanyIndex].name);
   }, [currentCompanyIndex, companies]);
 
   const handleViewingNextCompany = useCallback(() => {
-    const nextCompanyIndex = currentCompanyIndex >= companies.length - 1
-      ? 0
-      : currentCompanyIndex + 1;
+    const isLastCompany = currentCompanyIndex >= companies.length - 1;
+    const nextCompanyIndex = isLastCompany ? 0 : currentCompanyIndex + 1;
 
     setCurrentCompanyIndex(nextCompanyIndex);
     setInputText(companies[nextCompanyIndex].name);
   }, [currentCompanyIndex, companies]);
 
+  const hasCurrentCompany = companies && companies.length && companies[currentCompanyIndex];
+  const currentCompany = hasCurrentCompany ? companies[currentCompanyIndex] : null;
+
   return (
     <Portal container={document.getElementById(APP_ELEMENT_ID)}>
       <div className={classnames(classes.root, { [classes.hidden]: !open })}>
-        <AppBar onCloseClick={() => setOpen(false)} />
+        <AppBar onCloseClick={handleClose} />
         <Header
           disableButtons={!companies || companies.length <= 1}
           disableInput={searching}
           inputText={inputText}
           onPreviousCompanyClick={handleViewingPreviousCompany}
           onNextCompanyClick={handleViewingNextCompany}
-          onInputTextChange={(e) => {
-            setInputText(e.target.value);
-            debouncedInputChangeHandler(e.target.value);
-          }}
+          onInputTextChange={handleInputHeaderTextChange}
         />
-        { !searching && !companies.length && <UnableToIdentifyCompany /> }
+        { !searching && !currentCompany && <UnableToIdentifyCompany /> }
         { searching && <Loader /> }
         {
           !searching
-            && companies.length
+            && currentCompany
             && (
-              <>
-                <Ratings
-                  logoURL={companies[currentCompanyIndex].logoURL}
-                  companyName={companies[currentCompanyIndex].name}
-                  data={companies[currentCompanyIndex].ratings}
-                />
-                {
-                  companies[currentCompanyIndex].leader && <LeaderDetails data={companies[currentCompanyIndex].leader} />
-                }
-                {
-                  companies[currentCompanyIndex].featuredReview && <FeaturedReview data={companies[currentCompanyIndex].featuredReview} />
-                }
-              </>
+              <Content
+                companyName={currentCompany.name}
+                logoURL={currentCompany.logoURL}
+                ratings={currentCompany.ratings}
+                leader={currentCompany.leader}
+                featuredReview={currentCompany.featuredReview}
+              />
             )
         }
       </div>

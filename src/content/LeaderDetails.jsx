@@ -44,7 +44,14 @@ const formatPercentage = (value) => {
 };
 
 
-function LeaderDetails({ data }) {
+function LeaderDetails({
+  title,
+  name,
+  ratingsCount,
+  approvalPercentage,
+  disapprovalPercentage,
+  image,
+}) {
   const classes = useStyles();
 
   return (
@@ -56,34 +63,34 @@ function LeaderDetails({ data }) {
       >
         <ListItem className={classes.listItem}>
           {
-            data.image
-              && data.image.url
+            image
+              && image.url
               && (
                 <ListItemAvatar>
                   <Avatar
-                    alt={data.name}
-                    src={data.image.url}
+                    alt={name}
+                    src={image.url}
                   />
                 </ListItemAvatar>
               )
           }
           {
-            !data.image
-              && data.name
+            !image
+              && name
               && (
                 <ListItemAvatar>
                   <Avatar
                     className={classes.avatar}
-                    alt={data.name}
+                    alt={name}
                   >
-                    {data.name[0]}
+                    {name[0]}
                   </Avatar>
                 </ListItemAvatar>
               )
           }
           {
-            !data.image
-              && !data.name
+            !image
+              && !name
               && (
                 <ListItemIcon className={classes.primaryContent}>
                   <EmojiPeopleIcon />
@@ -92,9 +99,9 @@ function LeaderDetails({ data }) {
           }
           <ListItemText>
             <Typography className={classes.primaryContent}>
-              {data.title}
+              {title}
               {' '}
-              {data.name}
+              {name}
             </Typography>
           </ListItemText>
         </ListItem>
@@ -112,7 +119,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {formatPercentage(data.approvalPercentage)}
+                {formatPercentage(approvalPercentage)}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -127,7 +134,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {formatPercentage(data.disapprovalPercentage)}
+                {formatPercentage(disapprovalPercentage)}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -142,7 +149,7 @@ function LeaderDetails({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {`${Number(data.ratingsCount).toLocaleString()} reviews`}
+                {`${Number(ratingsCount).toLocaleString()} reviews`}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -153,29 +160,25 @@ function LeaderDetails({ data }) {
 }
 
 LeaderDetails.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    image: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-    approvalPercentage: PropTypes.number,
-    disapprovalPercentage: PropTypes.number,
-    ratingsCount: PropTypes.number,
+  name: PropTypes.string,
+  title: PropTypes.string,
+  image: PropTypes.shape({
+    url: PropTypes.string,
   }),
+  approvalPercentage: PropTypes.number,
+  disapprovalPercentage: PropTypes.number,
+  ratingsCount: PropTypes.number,
 };
 
 LeaderDetails.defaultProps = {
-  data: {
-    name: '',
-    title: '',
-    image: {
-      url: null,
-    },
-    approvalPercentage: null,
-    disapprovalPercentage: null,
-    ratingsCount: null,
+  name: '',
+  title: '',
+  image: {
+    url: null,
   },
+  approvalPercentage: null,
+  disapprovalPercentage: null,
+  ratingsCount: null,
 };
 
 export default LeaderDetails;

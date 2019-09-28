@@ -19,6 +19,10 @@ const useStyles = makeStyles({
     whiteSpace: 'nowrap',
     width: 1,
   },
+  content: {
+    overflow: 'auto',
+    maxHeight: 80,
+  },
 });
 
 function ExpandableContent({ children }) {
@@ -32,7 +36,7 @@ function ExpandableContent({ children }) {
   const expandable = children.length > MAX_DISPLAYABLE_CONTENT_LENGTH;
 
   return (
-    <div>
+    <div className={classes.content}>
       { /* @jaebradley: move this to a prop in the future, probably */ }
       { children.slice(0, MAX_DISPLAYABLE_CONTENT_LENGTH) }
       {

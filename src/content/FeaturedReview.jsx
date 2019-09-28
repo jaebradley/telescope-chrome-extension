@@ -32,9 +32,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingLeft: 10,
   },
+  details: {
+    overflow: 'auto',
+    maxHeight: 300,
+  },
 }));
 
-function FeaturedReview({ data }) {
+function FeaturedReview({
+  headline,
+  pros,
+  cons,
+  jobTitle,
+  overallRating,
+  location,
+}) {
   const classes = useStyles();
 
   return (
@@ -53,22 +64,22 @@ function FeaturedReview({ data }) {
           </ListItemIcon>
         </Tooltip>
         <Typography className={classes.primaryContent}>
-          {`"${data.headline}"`}
+          {`"${headline}"`}
         </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      <ExpansionPanelDetails className={classes.details}>
         <List>
           <ListItem>
             <Tooltip
-              title={`Overall Rating: ${data.overallRating}`}
-              aria-label={`Overall Rating: ${data.overallRating}`}
+              title={`Overall Rating: ${overallRating}`}
+              aria-label={`Overall Rating: ${overallRating}`}
             >
               <ListItemIcon className={classes.primaryContent}>
                 <GradeIcon />
               </ListItemIcon>
             </Tooltip>
             <Rating>
-              { data.overallRating }
+              { overallRating }
             </Rating>
           </ListItem>
           <ListItem>
@@ -82,7 +93,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {data.location || 'N/A'}
+                {location || 'N/A'}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -97,7 +108,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <Typography className={classes.primaryContent}>
-                {data.jobTitle}
+                {jobTitle}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -112,7 +123,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <ExpandableContent>
-                {data.prosDescription || 'N/A'}
+                {pros || 'N/A'}
               </ExpandableContent>
             </ListItemText>
           </ListItem>
@@ -127,7 +138,7 @@ function FeaturedReview({ data }) {
             </Tooltip>
             <ListItemText>
               <ExpandableContent>
-                {data.consDescription || 'N/A'}
+                {cons || 'N/A'}
               </ExpandableContent>
             </ListItemText>
           </ListItem>
@@ -138,25 +149,21 @@ function FeaturedReview({ data }) {
 }
 
 FeaturedReview.propTypes = {
-  data: PropTypes.shape({
-    headline: PropTypes.string,
-    prosDescription: PropTypes.string,
-    consDescription: PropTypes.string,
-    jobTitle: PropTypes.string,
-    overallRating: PropTypes.number,
-    location: PropTypes.string,
-  }),
+  headline: PropTypes.string,
+  pros: PropTypes.string,
+  cons: PropTypes.string,
+  jobTitle: PropTypes.string,
+  overallRating: PropTypes.number,
+  location: PropTypes.string,
 };
 
 FeaturedReview.defaultProps = {
-  data: {
-    headline: '',
-    prosDescription: '',
-    consDescription: '',
-    jobTitle: '',
-    overallRating: null,
-    location: '',
-  },
+  headline: '',
+  pros: '',
+  cons: '',
+  jobTitle: '',
+  overallRating: null,
+  location: '',
 };
 
 export default FeaturedReview;
