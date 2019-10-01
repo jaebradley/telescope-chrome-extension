@@ -1,13 +1,14 @@
 {
 	"name": "Telescope",
 	"short_name": "Telescope",
-	"version": "1.0.0",
-	"description": "Quickly view Glassdoor information in LinkedIn",
+	"version": "1.1.0",
+	"description": "Quickly view Glassdoor information in LinkedIn and Indeed",
 	"homepage_url": "https://github.com/jaebradley/telescope-chrome-extension",
 	"manifest_version": 2,
 	"minimum_chrome_version": "58",
 	"permissions": [
-    "*://linkedin.com/*",
+		"*://linkedin.com/*",
+		"*://indeed.com/*",
     "contextMenus",
 		"tabs",
     "storage"
@@ -26,7 +27,8 @@
 		{
 			"run_at": "document_end",
 			"matches": [
-				"*://www.linkedin.com/*"
+				"*://www.linkedin.com/*",
+				"*://www.indeed.com/*"
 			],
 			"js": [
         "content.js"

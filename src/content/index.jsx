@@ -21,6 +21,15 @@ if (window.location.host === 'www.linkedin.com') {
   } else {
     document.body.prepend(app);
   }
+} else if (window.location.host === 'www.indeed.com') {
+  // The widget should live on the right-hand side of the screen, with a width of 250px, and be 20px from the right-edge of screen
+  app.setAttribute('style', 'z-index: 10000; position: fixed; left: calc(100% - 270px); top: 75px; padding-right: 20px;');
+
+  if (document.getElementById('gnav-main-container')) {
+    document.getElementById('gnav-main-container').appendChild(app);
+  } else {
+    document.body.prepend(app);
+  }
 }
 
 ReactDOM.render(
