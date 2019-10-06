@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     backgroundColor: theme.palette.primary.main,
   },
+  tooltip: {
+    zIndex: 99999,
+  },
 }));
 
 const formatPercentage = (value) => {
@@ -110,6 +113,8 @@ function LeaderDetails({
         <List>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Approval percentage"
               aria-label="Approval percentage"
             >
@@ -125,6 +130,8 @@ function LeaderDetails({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Disapproval percentage"
               aria-label="Disapproval percentage"
             >
@@ -140,6 +147,8 @@ function LeaderDetails({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Number of Reviews"
               aria-label="Number of Reviews"
             >
