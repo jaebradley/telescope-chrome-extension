@@ -1,8 +1,4 @@
-import {
-  createMuiTheme,
-} from '@material-ui/core/styles';
-
-export default createMuiTheme({
+export default {
   palette: {
     type: 'light',
     primary: {
@@ -26,4 +22,11 @@ export default createMuiTheme({
     ].join(','),
     fontWeight: 400,
   },
-});
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: '0.6em',
+      },
+    },
+  },
+};

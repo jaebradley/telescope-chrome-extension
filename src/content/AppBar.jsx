@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     flexGrow: 1,
     color: 'white',
     textAlign: 'center',
+    fontSize: 'medium',
   },
   closeButton: {
     color: 'white',
