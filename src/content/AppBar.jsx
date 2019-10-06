@@ -9,6 +9,8 @@ import {
 } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 
+import TelescopeImage from '../icons/20.png';
+
 const useStyles = makeStyles({
   title: {
     flexGrow: 1,
@@ -26,12 +28,10 @@ function AppBar({ onCloseClick }) {
   return (
     <MUIAppBar position="static">
       <Toolbar>
-        <span
-          role="img"
-          aria-label="telescope"
-        >
-          🔭
-        </span>
+        <img
+          src={TelescopeImage}
+          alt="telescope"
+        />
         <Typography
           variant="h5"
           className={classes.title}
@@ -41,6 +41,7 @@ function AppBar({ onCloseClick }) {
         <IconButton
           className={classes.closeButton}
           onClick={onCloseClick}
+          edge="end"
         >
           <CloseIcon />
         </IconButton>
