@@ -21,6 +21,7 @@ import Header from './Header';
 import Loader from './Loader';
 import identifyCompanyName from './utilities/linkedin/jobs/identifyCompanyName';
 import shouldIdentifyCompanyName from './utilities/linkedin/jobs/shouldIdentifyCompanyName';
+import identifySubdomain from './utilities/identifySubdomain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,9 +76,7 @@ export default function App() {
       }
 
       if (!searchTerm) {
-        const url = new URL(document.URL);
-        const hosts = url.hostname.split('.');
-        searchTerm = hosts[hosts.length - 2];
+        searchTerm = identifySubdomain(document.URL);
       }
 
       setInputText(searchTerm);

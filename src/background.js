@@ -26,7 +26,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
     const currentTab = tabs[0];
     if (currentTab.id === tabId) {
       if (changeInfo && changeInfo.status === 'complete') {
-        chrome.tabs.sendMessage(tabId, { type: 'ACTIVE_TAB_PAGE_LOAD' });
+        chrome.tabs.sendMessage(tabId, { type: 'ACTIVE_TAB_COMPLETED_PAGE_LOAD' });
       }
     }
   });
