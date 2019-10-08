@@ -20,3 +20,14 @@ chrome.browserAction.onClicked.addListener(() => {
     chrome.tabs.sendMessage(tabs[0].id, { selectionText: subdomain });
   });
 });
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const currentTab = tabs[0];
+    if (currentTab.id === tabId) {
+      if (changeInfo && changeInfo.status === 'complete') {
+        chrome.tabs.sendMessage(tabId, { type: 'ACTIVE_TAB_PAGE_LOAD' });
+      }
+    }
+  });
+});
