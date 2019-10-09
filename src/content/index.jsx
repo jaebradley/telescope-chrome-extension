@@ -32,8 +32,8 @@ if (window.location.host === 'www.linkedin.com') {
   theme = IndeedTheme;
   app.setAttribute('style', WIDGET_CONTAINER_STYLES);
 
-  if (document.getElementById('gnav-main-container')) {
-    document.getElementById('gnav-main-container').appendChild(app);
+  if (document.querySelector('div.jobsearch-Content')) {
+    document.querySelector('div.jobsearch-Content').appendChild(app);
   } else {
     document.body.prepend(app);
   }
