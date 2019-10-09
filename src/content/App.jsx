@@ -19,9 +19,9 @@ import useCompanySearch from './hooks/useCompanySearch';
 import AppBar from './AppBar';
 import Header from './Header';
 import Loader from './Loader';
-import identifyCompanyName from './utilities/linkedin/jobs/identifyCompanyName';
-import shouldIdentifyCompanyName from './utilities/linkedin/jobs/shouldIdentifyCompanyName';
 import identifySubdomain from './utilities/identifySubdomain';
+import identifyCompanyName from '../utilities/linkedin/jobs/identifyCompanyName';
+import shouldIdentifyCompanyName from '../utilities/linkedin/jobs/shouldIdentifyCompanyName';
 
 const useStyles = makeStyles((theme) => ({
   root: {
