@@ -1,4 +1,5 @@
-import shouldIdentifyCompanyName from './utilities/linkedin/jobs/shouldIdentifyCompanyName';
+import shouldIdentifyCompanyNameOnLinkedIn from './utilities/linkedin/jobs/shouldIdentifyCompanyName';
+import shouldIdentifyCompanyNameOnIndeed from './utilities/indeed/jobs/shouldIdentifyCompanyName';
 
 chrome.contextMenus.create({
   id: 'asdfkljz9xkljsfdkladfasdfasdasdfsf',
@@ -31,7 +32,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
         // Widget has an event handler that handles messages and parses company name from document
         // So only send messages when document has parseable company name to avoid unnecessary renders
         // And searches
-        if (shouldIdentifyCompanyName(currentTab.url)) {
+        if (shouldIdentifyCompanyNameOnLinkedIn(currentTab.url) || shouldIdentifyCompanyNameOnIndeed(currentTab.url)) {
           chrome.tabs.sendMessage(tabId, { type: 'ACTIVE_TAB_COMPLETED_PAGE_LOAD' });
         }
       }
