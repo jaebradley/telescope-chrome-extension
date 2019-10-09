@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     maxHeight: 300,
   },
+  tooltip: {
+    zIndex: 99999,
+  },
 }));
 
 function FeaturedReview({
@@ -56,6 +59,8 @@ function FeaturedReview({
         id="featured-review-panel-header"
       >
         <Tooltip
+          className={classes.tooltip}
+          placement="left"
           title="Featured Review"
           aria-label="Featured Review"
         >
@@ -71,6 +76,8 @@ function FeaturedReview({
         <List>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title={`Overall Rating: ${overallRating}`}
               aria-label={`Overall Rating: ${overallRating}`}
             >
@@ -84,6 +91,8 @@ function FeaturedReview({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Location"
               aria-label="Location"
             >
@@ -99,6 +108,8 @@ function FeaturedReview({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Job Title"
               aria-label="Job Title"
             >
@@ -114,6 +125,8 @@ function FeaturedReview({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Pros"
               aria-label="Pros"
             >
@@ -129,6 +142,8 @@ function FeaturedReview({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Cons"
               aria-label="Cons"
             >

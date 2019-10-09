@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     backgroundColor: theme.palette.primary.main,
   },
+  tooltip: {
+    zIndex: 99999,
+  },
 }));
 
 function Ratings({
@@ -67,6 +70,8 @@ function Ratings({
             logoURL
               && (
                 <Tooltip
+                  className={classes.tooltip}
+                  placement="left"
                   title={`Overall Rating for ${companyName}: ${overall}`}
                   aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
@@ -85,6 +90,8 @@ function Ratings({
               && companyName
               && (
                 <Tooltip
+                  className={classes.tooltip}
+                  placement="left"
                   title={`Overall Rating for ${companyName}: ${overall}`}
                   aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
@@ -104,6 +111,8 @@ function Ratings({
               && !companyName
               && (
                 <Tooltip
+                  className={classes.tooltip}
+                  placement="left"
                   title={`Overall Rating for ${companyName}: ${overall}`}
                   aria-label={`Overall Rating for ${companyName}: ${overall}`}
                 >
@@ -122,6 +131,8 @@ function Ratings({
         <List>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title={`Compensation & Benefits: ${compensationAndBenefits}`}
               aria-label={`Compensation & Benefits: ${compensationAndBenefits}`}
             >
@@ -135,6 +146,8 @@ function Ratings({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title={`Career Opportunities: ${careerOpportunities}`}
               aria-label={`Career Opportunities : ${careerOpportunities}`}
             >
@@ -148,6 +161,8 @@ function Ratings({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title={`Work/Life Balance: ${workLifeBalance}`}
               aria-label={`Work/Life Balance: ${workLifeBalance}`}
             >
@@ -161,6 +176,8 @@ function Ratings({
           </ListItem>
           <ListItem>
             <Tooltip
+              className={classes.tooltip}
+              placement="left"
               title="Number of Reviews"
               aria-label="Number of Reviews"
             >

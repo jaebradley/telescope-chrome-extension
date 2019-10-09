@@ -19,6 +19,11 @@ import useCompanySearch from './hooks/useCompanySearch';
 import AppBar from './AppBar';
 import Header from './Header';
 import Loader from './Loader';
+import identifySubdomain from './utilities/identifySubdomain';
+import identifyCompanyNameOnLinkedIn from '../utilities/linkedin/jobs/identifyCompanyName';
+import identifyCompanyNameOnIndeed from '../utilities/indeed/jobs/identifyCompanyName';
+import shouldIdentifyCompanyNameOnLinkedIn from '../utilities/linkedin/jobs/shouldIdentifyCompanyName';
+import shouldIdentifyCompanyNameOnIndeed from '../utilities/indeed/jobs/shouldIdentifyCompanyName';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,8 +71,22 @@ export default function App() {
         setOpen(true);
       }
 
-      setInputText(selectionText);
-      handleSearch(selectionText);
+      let searchTerm = selectionText;
+
+      if (shouldIdentifyCompanyNameOnLinkedIn(document.URL)) {
+        searchTerm = identifyCompanyNameOnLinkedIn(document.URL);
+      }
+
+      if (shouldIdentifyCompanyNameOnIndeed(document.URL)) {
+        searchTerm = identifyCompanyNameOnIndeed(document.URL);
+      }
+
+      if (!searchTerm) {
+        searchTerm = identifySubdomain(document.URL);
+      }
+
+      setInputText(searchTerm);
+      handleSearch(searchTerm);
     }
 
     chrome.extension.onMessage.addListener(handleSelectedSearchTerm);
