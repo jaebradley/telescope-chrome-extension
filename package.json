@@ -36,7 +36,7 @@
     "classnames": "^2.2.6",
     "lodash-es": "^4.17.15",
     "prop-types": "^15.7.2",
-    "query-string": "^6.8.3",
+    "query-string": "^6.12.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "use-debounce": "^3.4.2"
