@@ -5,8 +5,8 @@
 </p>
 <h3 class="title" align="center">Chrome Extension to get Glassdoor Reviews</h3>
 <p align="center">
- <a href="https://travis-ci.org/jaebradley/telescope-chrome-extension">
-  <img src="https://travis-ci.org/jaebradley/telescope-chrome-extension.svg?branch=master" alt="build-status"></img>
+ <a href="https://github.com/jaebradley/telescope-chrome-extension/workflows/Telescope%20Chrome%20Extension/badge.svg">
+  <img src="https://github.com/jaebradley/telescope-chrome-extension/workflows/Telescope%20Chrome%20Extension/badge.svg" alt="build-status"></img>
  </a>
  <a href="https://chrome.google.com/webstore/detail/lgphjiclbioogghoddaaekfedbolnofn">
   <img src="https://img.shields.io/chrome-web-store/v/lgphjiclbioogghoddaaekfedbolnofn.svg" alt="chrome-extension-version"></img>
