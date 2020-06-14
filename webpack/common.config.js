@@ -70,17 +70,19 @@ module.exports = {
       DEBUG: false,
       API_BASE_URL: 'localhost:8080',
     }),
-    new CopyWebpackPlugin([
-      {
-        from: 'src/manifest.json',
-        to: OUTPUT_PATH,
-      },
-      {
-        from: 'src/icons',
-        to: 'icons',
-        toType: 'dir',
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/manifest.json',
+          to: OUTPUT_PATH,
+        },
+        {
+          from: 'src/icons',
+          to: 'icons',
+          toType: 'dir',
+        },
+      ],
+    }),
     new WriteFilePlugin(),
   ],
   resolve: {
